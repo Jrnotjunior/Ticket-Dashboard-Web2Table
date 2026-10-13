@@ -5,6 +5,7 @@ import {authorizeSystemAdmin,signIn,signOut} from '../domain/auth/authService';
 import type {SupportTicket} from '../domain/tickets/types';
 import {listTickets,subscribeToTickets,unsubscribeFromTickets} from '../domain/tickets/ticketService';
 import {LoginPage} from '../features/auth/LoginPage';
+import {MfaGate} from '../features/auth/MfaGate';
 import {TicketDashboard} from '../features/tickets/TicketDashboard';
 import {TicketDetails} from '../features/tickets/TicketDetails';
 import {AppShell} from '../shared/layout/AppShell';
@@ -17,5 +18,5 @@ export default function App(){
  if(!supabase)return <div className="setup-screen"><div className="setup-card"><span className="brand-mark">W</span><h1>Support Desk setup</h1><p>Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> to the app environment variables.</p></div></div>;
  if(booting)return <div className="loading-screen"><span className="spinner"/> Checking secure session…</div>;
  if(!user)return <LoginPage onSubmit={handleSignIn} busy={busy} error={loginError}/>;
- return <AppShell userEmail={user.email??'Administrator'} onSignOut={()=>void signOut()}><TicketDashboard tickets={tickets} loading={loadingTickets} error={ticketError} onRefresh={refresh} onSelect={setSelected}/>{selected&&<TicketDetails ticket={tickets.find(t=>t.id===selected.id)??selected} accessLevel={accessLevel} onClose={()=>setSelected(null)} onSaved={refresh}/>}</AppShell>;
+ return <MfaGate><AppShell userEmail={user.email??'Administrator'} onSignOut={()=>void signOut()}><TicketDashboard tickets={tickets} loading={loadingTickets} error={ticketError} onRefresh={refresh} onSelect={setSelected}/>{selected&&<TicketDetails ticket={tickets.find(t=>t.id===selected.id)??selected} accessLevel={accessLevel} onClose={()=>setSelected(null)} onSaved={refresh}/>}</AppShell></MfaGate>;
 }
