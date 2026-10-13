@@ -74,3 +74,7 @@ th, td, .table-toolbar, .table-footer, .drawer-header, .detail-id, .status-edito
 .description-section p { color: #d0d0d0; }
 .button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #ED1C24; outline-offset: 2px; }
 ::selection { color: #fff; background: #ED1C24; }
+
+/* Official Web2Table logo */
+.brand-logo { display:block; width:42px; height:42px; flex:0 0 42px; object-fit:contain; border-radius:0; }
+.login-card .brand-logo { width:54px; height:54px; flex-basis:54px; }
