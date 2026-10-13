@@ -75,6 +75,10 @@ th, td, .table-toolbar, .table-footer, .drawer-header, .detail-id, .status-edito
 .button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #ED1C24; outline-offset: 2px; }
 ::selection { color: #fff; background: #ED1C24; }
 
-/* Official Web2Table logo */
-.brand-logo { display:block; width:42px; height:42px; flex:0 0 42px; object-fit:contain; border-radius:0; }
-.login-card .brand-logo { width:54px; height:54px; flex-basis:54px; }
+/* Official Web2Table logo — larger in both navigation and sign-in */
+.brand-lockup { gap:14px; }
+.brand-logo { display:block; width:68px; height:68px; flex:0 0 68px; object-fit:contain; border-radius:0; }
+.sidebar .brand-lockup { padding:0 4px 34px; }
+.login-card .brand-lockup { gap:16px; }
+.login-card .brand-logo { width:100px; height:100px; flex-basis:100px; }
+@media(max-width:700px) { .sidebar .brand-logo { width:54px; height:54px; flex-basis:54px; } }
