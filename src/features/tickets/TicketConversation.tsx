@@ -1,4 +1,5 @@
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
 import { requireSupabase } from '../../lib/supabase';
 import { listTicketMessages, sendTicketMessage, subscribeToTicketMessages, type SupportMessage } from '../../domain/tickets/messageService';
 import type { SupportTicket } from '../../domain/tickets/types';
