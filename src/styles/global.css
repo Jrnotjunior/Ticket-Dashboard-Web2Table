@@ -82,3 +82,64 @@ th, td, .table-toolbar, .table-footer, .drawer-header, .detail-id, .status-edito
 .login-card .brand-lockup { gap:16px; }
 .login-card .brand-logo { width:100px; height:100px; flex-basis:100px; }
 @media(max-width:700px) { .sidebar .brand-logo { width:54px; height:54px; flex-basis:54px; } }
+
+
+/* Readability pass — increase dashboard typography throughout */
+html { font-size: 16px; }
+body, button, input, select { font-size: 16px; }
+.nav-item { font-size: 15px; }
+.brand-lockup strong { font-size: 19px; }
+.brand-lockup small { font-size: 12px; letter-spacing: 1.4px; }
+.nav-caption { font-size: 12px; }
+.user-copy strong { font-size: 13px; }
+.user-copy small { font-size: 12px; }
+.topbar > div:first-child { font-size: 14px; }
+.live-label { font-size: 13px; }
+.page-heading h1, .login-card h1 { font-size: 30px; }
+.eyebrow { font-size: 12px; }
+.heading-count { font-size: 14px; }
+.muted { font-size: 14px; }
+.button { font-size: 14px; }
+.stat-label { font-size: 13px; }
+.stat-value { font-size: 27px; }
+.table-toolbar h2 { font-size: 17px; }
+.table-toolbar p { font-size: 13px; }
+.search-box input { font-size: 14px; }
+.table-filters select, .status-editor select { font-size: 14px; }
+th { font-size: 12px; letter-spacing: .6px; }
+td { font-size: 14px; }
+.ticket-number { font-size: 13px; }
+.subject-cell, .sub-cell { font-size: 12px; }
+.ticket-row td:nth-child(2) > strong { font-size: 14px; }
+.type-badge, .status-badge, .impact { font-size: 12px; }
+.date-cell { font-size: 12px; }
+.table-footer { font-size: 12px; }
+.empty-state { font-size: 14px; }
+.empty-state strong { font-size: 16px; }
+.loading-screen { font-size: 14px; }
+.setup-card h1 { font-size: 25px; }
+.setup-card p { font-size: 15px; }
+.setup-card code { font-size: 13px; }
+.login-form label, .status-editor label { font-size: 14px; }
+.login-form input { font-size: 16px; }
+.login-footnote { font-size: 12px; }
+.alert { font-size: 14px; }
+.drawer-header h2 { font-size: 23px; }
+.detail-subject { font-size: 24px; }
+.detail-meta { font-size: 13px; }
+.detail-grid span, .detail-id span { font-size: 13px; }
+.detail-grid strong { font-size: 14px; }
+.description-section h4 { font-size: 15px; }
+.description-section p { font-size: 15px; line-height: 1.8; }
+.detail-id code { font-size: 12px; }
+.view-only-note { font-size: 13px; }
+
+@media(max-width:700px) {
+  .page-heading h1 { font-size: 26px; }
+  .stat-label { font-size: 12px; }
+  .stat-value { font-size: 24px; }
+  th { font-size: 11px; }
+  td { font-size: 13px; }
+  .table-toolbar h2 { font-size: 16px; }
+  .detail-subject { font-size: 22px; }
+}
