@@ -33,7 +33,6 @@ type Props = {
 };
 
 export function TicketOverview({ tickets, customerRepliedIds }: Props) {
-  const isOpen = (ticket: SupportTicket) => ticket.status === 'open' || ticket.status === 'in_progress';
   const isHighPriority = (ticket: SupportTicket) => ticket.impact === 'high' || ticket.impact === 'critical';
 
   const items: OverviewItem[] = [
