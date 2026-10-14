@@ -48,6 +48,35 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
   }
 }
 
+function csvCell(value: unknown): string {
+  const text = value == null ? '' : String(value);
+  return '"' + text.replace(/"/g, '""') + '"';
+}
+
+function exportTicketsCsv(tickets: SupportTicket[], filename: string) {
+  const headers = ['Ticket Number', 'Subject', 'Restaurant', 'Requester Email', 'Request Type', 'Impact', 'Status', 'Submitted'];
+  const rows = tickets.map(ticket => [
+    ticket.request_number,
+    ticket.subject,
+    ticket.restaurant?.name,
+    ticket.requester_email,
+    ticketTypeLabels[ticket.request_type],
+    impactLabels[ticket.impact],
+    statusLabels[ticket.status],
+    ticket.created_at ? new Date(ticket.created_at).toISOString() : '',
+  ]);
+  const csv = [headers, ...rows].map(row => row.map(csvCell).join(',')).join('\\r\\n');
+  const blob = new Blob(['\\uFEFF', csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function getRequestedFilter(): TicketOverviewFilter | null {
   const value = new URLSearchParams(window.location.search).get('filter');
   return value && value in filterLabels ? value as TicketOverviewFilter : null;
@@ -132,7 +161,12 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             <label className="category-filter-select"><span className="sr-only">Filter by request type</span><select value={categoryType} onChange={event => setCategoryType(event.target.value)} aria-label="Filter by request type"><option value="all">All types</option>{Object.entries(ticketTypeLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
             <label className="category-filter-select"><span className="sr-only">Filter by impact</span><select value={categoryImpact} onChange={event => setCategoryImpact(event.target.value)} aria-label="Filter by impact"><option value="all">All impacts</option>{Object.entries(impactLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
           </div>
-          <p className="category-ticket-count">Showing {filteredTickets.length} of {tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds)).length} tickets</p>
+          <div className="category-ticket-results-toolbar">
+            <p className="category-ticket-count">Showing {filteredTickets.length} of {tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds)).length} tickets</p>
+            <button className="category-export-button" type="button" onClick={() => exportTicketsCsv(filteredTickets, `web2table-${activeFilter}-tickets.csv`)} disabled={filteredTickets.length === 0} title="Export the tickets matching the current search and filters">
+              <span aria-hidden="true">⇩</span> Export CSV
+            </button>
+          </div>
           {error && <p className="filtered-ticket-message">{error}</p>}
           {loading && tickets.length === 0 ? <p className="filtered-ticket-message">Loading tickets…</p> :
             filteredTickets.length === 0 ? <p className="filtered-ticket-message">No tickets match this category.</p> : (
