@@ -174,3 +174,16 @@ td { font-size: 14px; }
 .status-editor-inline select{width:104px!important;min-width:104px!important;max-width:104px!important;flex:0 0 104px;height:35px;padding-right:20px}
 .status-editor-inline .button-compact{width:auto;min-width:0;flex:0 0 auto;padding:7px 12px;white-space:nowrap}
 @media(max-width:600px){.status-editor-controls{flex-wrap:wrap}.status-editor-inline select{width:104px!important;min-width:104px!important;max-width:104px!important;flex:0 0 104px}}
+
+/* Final ticket summary alignment: consistent top-aligned columns and readable status control. */
+.detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;column-gap:24px;row-gap:14px;padding:16px}
+.detail-grid>div{min-width:0}
+.detail-status-field{grid-column:3;grid-row:1;align-self:start;gap:5px!important}
+.detail-grid>div:nth-child(4){grid-column:1;grid-row:2}
+.status-editor-inline{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-top:4px}
+.status-editor-inline label{display:block;white-space:nowrap;line-height:1.3}
+.status-editor-controls{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
+.status-editor-inline select{box-sizing:border-box;width:130px!important;min-width:130px!important;max-width:130px!important;flex:0 0 130px;height:35px;padding:0 8px}
+.status-editor-inline .button-compact{width:auto;min-width:0;flex:0 0 auto;padding:7px 12px;white-space:nowrap}
+@media(max-width:700px){.detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-status-field{grid-column:2;grid-row:1}.detail-grid>div:nth-child(4){grid-column:1;grid-row:2}}
+@media(max-width:480px){.detail-grid{grid-template-columns:minmax(0,1fr)}.detail-status-field,.detail-grid>div:nth-child(4){grid-column:1;grid-row:auto}.status-editor-inline select{width:130px!important;min-width:130px!important;max-width:130px!important;flex-basis:130px}}
