@@ -24,11 +24,6 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
                 <small>SUPPORT DESK</small>
               </span>
             </a>
-            <div className="topbar-breadcrumb">
-              <span className="breadcrumb-muted">Workspace</span>
-              <span className="breadcrumb-divider">/</span>
-              <strong>Support tickets</strong>
-            </div>
           </div>
           <div className="topbar-actions">
             <div className="live-label"><span className="live-dot" /> Live updates</div>
