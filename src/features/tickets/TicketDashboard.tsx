@@ -82,7 +82,30 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
           <h1>Support tickets <span className="heading-count">{totalTickets}</span></h1>
           <p className="muted">Review, prioritize, and resolve requests from your restaurant customers.</p>
         </div>
-        <button className="button button-secondary" onClick={onRefresh}>↻ <span>Refresh</span></button>
+        <div className="page-heading-actions">
+          <div className="ticket-list-toolbar">
+            <label className="search-box">
+              <span>⌕</span>
+              <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search tickets…" aria-label="Search tickets" />
+            </label>
+            <div className="table-filters">
+              <select aria-label="Filter by status" value={status} onChange={event => setStatus(event.target.value as typeof status)}>
+                <option value="all">All statuses</option>
+                {Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+              <select aria-label="Filter by type" value={type} onChange={event => setType(event.target.value as typeof type)}>
+                <option value="all">All types</option>
+                {Object.entries(ticketTypeLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+              {(overviewFilter !== 'all' || status !== 'all' || type !== 'all' || search) && (
+                <button className="button button-secondary" onClick={() => { setOverviewFilter('all'); setStatus('all'); setType('all'); setSearch(''); }}>
+                  Clear filters
+                </button>
+              )}
+            </div>
+          </div>
+          <button className="button button-secondary" onClick={onRefresh}>↻ <span>Refresh</span></button>
+        </div>
       </div>
 
       <TicketOverview
@@ -93,27 +116,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
       />
 
 
-      <div className="ticket-list-toolbar">
-          <label className="search-box">
-            <span>⌕</span>
-            <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search tickets…" aria-label="Search tickets" />
-          </label>
-          <div className="table-filters">
-            <select aria-label="Filter by status" value={status} onChange={event => setStatus(event.target.value as typeof status)}>
-              <option value="all">All statuses</option>
-              {Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-            </select>
-            <select aria-label="Filter by type" value={type} onChange={event => setType(event.target.value as typeof type)}>
-              <option value="all">All types</option>
-              {Object.entries(ticketTypeLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-            </select>
-            {(overviewFilter !== 'all' || status !== 'all' || type !== 'all' || search) && (
-              <button className="button button-secondary" onClick={() => { setOverviewFilter('all'); setStatus('all'); setType('all'); setSearch(''); }}>
-                Clear filters
-              </button>
-            )}
-          </div>
-      </div>
 
       <div className="table-card">
         {error && <div className="alert alert-error table-alert">{error}<button className="button button-secondary" onClick={onRefresh}>Try again</button></div>}
