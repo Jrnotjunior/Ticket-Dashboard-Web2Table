@@ -10,7 +10,9 @@ export type TicketOverviewFilter =
   | 'p1'
   | 'p2'
   | 'high_in_progress'
-  | 'customer_replied'
+  | 'incident_replied'
+  | 'change_replied'
+  | 'request_item_replied'
   | 'open'
   | 'resolved'
   | 'recent';
@@ -43,7 +45,9 @@ export function TicketOverview({ tickets, customerRepliedIds }: Props) {
     { id: 'p1', label: 'P1 · Critical', hint: 'Critical impact', count: tickets.filter(t => t.impact === 'critical').length, icon: '⚠', tone: 'critical' },
     { id: 'p2', label: 'P2 · High', hint: 'High impact', count: tickets.filter(t => t.impact === 'high').length, icon: 'ⓘ', tone: 'warning' },
     { id: 'high_in_progress', label: 'High Priority · In Progress', hint: 'High / critical and in progress', count: tickets.filter(t => t.status === 'in_progress' && isHighPriority(t)).length, icon: '♨', tone: 'warning' },
-    { id: 'customer_replied', label: 'Customer Replied', hint: 'Awaiting support', count: tickets.filter(t => customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
+    { id: 'incident_replied', label: 'Incident — Customer Replied', hint: 'Incident updated by customer', count: tickets.filter(t => t.request_type === 'incident' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
+    { id: 'change_replied', label: 'Change Request — Customer Replied', hint: 'Change request updated by customer', count: tickets.filter(t => t.request_type === 'change_request' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
+    { id: 'request_item_replied', label: 'RTM — Customer Replied', hint: 'Request item updated by customer', count: tickets.filter(t => t.request_type === 'request_item' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
     { id: 'open', label: 'Open Tickets', hint: 'Open or in progress', count: tickets.filter(isOpen).length, icon: '○' },
     { id: 'resolved', label: 'Resolved / Closed', hint: 'Completed requests', count: tickets.filter(t => t.status === 'resolved' || t.status === 'closed').length, icon: '✓' },
     { id: 'recent', label: 'Recently Updated', hint: 'Updated in the last 7 days', count: tickets.filter(t => new Date(t.updated_at).getTime() >= recentCutoff).length, icon: '↻' },
