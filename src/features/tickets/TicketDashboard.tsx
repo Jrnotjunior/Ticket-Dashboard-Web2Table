@@ -88,7 +88,6 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
   const [overviewCounts, setOverviewCounts] = useState<TicketOverviewCounts | null>(null);
   const [activeFilter, setActiveFilter] = useState<TicketOverviewFilter | null>(() => getRequestedFilter());
-  const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('search') ?? '');
   const [categorySearch, setCategorySearch] = useState('');
   const [categoryStatus, setCategoryStatus] = useState('all');
   const [categoryType, setCategoryType] = useState('all');
@@ -97,7 +96,6 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
   useEffect(() => {
     const syncLocation = () => {
       setActiveFilter(getRequestedFilter());
-      setSearch(new URLSearchParams(window.location.search).get('search') ?? '');
       setCategorySearch('');
       setCategoryStatus('all');
       setCategoryType('all');
@@ -106,15 +104,6 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
     window.addEventListener('popstate', syncLocation);
     return () => window.removeEventListener('popstate', syncLocation);
   }, []);
-
-  function updateSearch(value: string) {
-    setSearch(value);
-    const url = new URL(window.location.href);
-    if (value.trim()) url.searchParams.set('search', value);
-    else url.searchParams.delete('search');
-    url.searchParams.delete('ticket');
-    window.history.replaceState({}, '', url.pathname + url.search + url.hash);
-  }
 
   useEffect(() => {
     let active = true;
@@ -166,8 +155,6 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
       .filter(ticket => categoryImpact === 'all' || ticket.impact === categoryImpact)
     : [];
   const returnTo = window.location.pathname + window.location.search + window.location.hash;
-  const normalizedSearch = search.trim().toLowerCase();
-  const searchResults = normalizedSearch ? tickets.filter(ticket => [ticket.request_number, ticket.subject, ticket.description, ticket.restaurant?.name, ticket.requester_email, ticket.request_type, ticket.status, ticket.impact, ticketTypeLabels[ticket.request_type], statusLabels[ticket.status], impactLabels[ticket.impact]].some(value => value?.toLowerCase().includes(normalizedSearch))) : [];
 
   return (
     <section className="tickets-page">
@@ -216,35 +203,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             )}
         </section>
       ) : (
-        <>
-          <div className="ticket-dashboard-heading-row">
-            <div className="page-heading">
-              <div>
-                <p className="eyebrow">CUSTOMER OPERATIONS</p>
-                <h1>Support tickets</h1>
-                <p className="muted">Review, prioritize, and resolve requests from your restaurant customers.</p>
-              </div>
-            </div>
-            <label className="ticket-global-search">
-              <span aria-hidden="true">⌕</span>
-              <input type="search" value={search} onChange={event => updateSearch(event.target.value)} placeholder="Search tickets…" aria-label="Search all tickets" />
-              {search && <button type="button" onClick={() => updateSearch('')} aria-label="Clear search">×</button>}
-            </label>
-          </div>
-          {normalizedSearch && (
-            <section className="ticket-search-results" aria-live="polite">
-              <div className="ticket-search-results-heading"><strong>Search results</strong><span>{searchResults.length} {searchResults.length === 1 ? 'ticket' : 'tickets'}</span></div>
-              {searchResults.length ? <div className="filtered-ticket-list">
-                {searchResults.map(ticket => <a className="filtered-ticket-row" href={"?search=" + encodeURIComponent(search) + "&ticket=" + encodeURIComponent(ticket.id) + "&returnTo=" + encodeURIComponent(returnTo)} key={ticket.id}>
-                  <span className="filtered-ticket-main"><strong>{ticket.request_number ?? 'Support request'}</strong><span>{ticket.subject}</span><small>{ticket.restaurant?.name ?? 'Restaurant'} · {ticket.requester_email ?? 'No requester email'}</small></span>
-                  <span className="filtered-ticket-badges"><span className={'type-badge type-' + ticket.request_type}>{ticketTypeLabels[ticket.request_type]}</span><span className={'impact impact-' + ticket.impact}>{impactLabels[ticket.impact]}</span><span className={'status-badge status-' + ticket.status}>{statusLabels[ticket.status]}</span></span>
-                  <span className="filtered-ticket-arrow" aria-hidden="true">›</span>
-                </a>)}
-              </div> : <p className="filtered-ticket-message">No tickets match “{search}”.</p>}
-            </section>
-          )}
-          <TicketOverview tickets={tickets} counts={overviewCounts} />
-        </>
+        <TicketOverview tickets={tickets} counts={overviewCounts} />
       )}
     </section>
   );
