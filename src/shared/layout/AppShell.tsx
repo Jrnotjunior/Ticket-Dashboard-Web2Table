@@ -12,10 +12,23 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
     <div className="app-layout">
       <main className="main-area">
         <header className="topbar">
-          <div className="topbar-breadcrumb">
-            <span className="breadcrumb-muted">Workspace</span>
-            <span className="breadcrumb-divider">/</span>
-            <strong>Support tickets</strong>
+          <div className="topbar-leading">
+            <a className="topbar-brand" href="./" aria-label="Web2Table Support Desk home">
+              <img
+                className="topbar-brand-logo"
+                src="https://xaihajwrsvcdjisezmmc.supabase.co/storage/v1/object/public/web2table-assets/web2table.png"
+                alt=""
+              />
+              <span className="topbar-brand-copy">
+                <strong>Web2Table</strong>
+                <small>SUPPORT DESK</small>
+              </span>
+            </a>
+            <div className="topbar-breadcrumb">
+              <span className="breadcrumb-muted">Workspace</span>
+              <span className="breadcrumb-divider">/</span>
+              <strong>Support tickets</strong>
+            </div>
           </div>
           <div className="topbar-actions">
             <div className="live-label"><span className="live-dot" /> Live updates</div>
