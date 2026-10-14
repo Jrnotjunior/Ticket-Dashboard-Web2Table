@@ -117,35 +117,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
 
 
 
-      <div className="table-card">
-        {error && <div className="alert alert-error table-alert">{error}<button className="button button-secondary" onClick={onRefresh}>Try again</button></div>}
-        {replyLoadError && <p className="table-alert muted">{replyLoadError}</p>}
-
-        <div className="table-scroll">
-          <table>
-            <thead><tr><th>Ticket</th><th>Customer / restaurant</th><th>Request type</th><th>Impact</th><th>Status</th><th>Submitted</th><th /></tr></thead>
-            <tbody>
-              {loading && tickets.length === 0 && <tr><td colSpan={7}><div className="empty-state"><span className="spinner" />Loading tickets…</div></td></tr>}
-              {!loading && filtered.length === 0 && <tr><td colSpan={7}><div className="empty-state"><span className="empty-icon">▤</span><strong>{tickets.length ? 'No matching tickets' : 'No tickets yet'}</strong><span>{tickets.length ? 'Try changing your search or filters.' : 'New customer requests will appear here automatically.'}</span></div></td></tr>}
-              {filtered.map(ticket => (
-                <tr key={ticket.id} onClick={() => onSelect(ticket)} className="ticket-row" tabIndex={0} onKeyDown={event => { if (event.key === 'Enter') onSelect(ticket); }}>
-                  <td>
-                    <a className="ticket-number ticket-number-link" href={`?ticket=${encodeURIComponent(ticket.id)}`} onClick={event => event.stopPropagation()} aria-label={`Open ticket ${ticket.request_number ?? ticket.subject}`}>{ticket.request_number ?? 'Pending ID'}</a>
-                    <span className="subject-cell">{ticket.subject}</span>
-                  </td>
-                  <td><strong>{ticket.restaurant?.name ?? 'Restaurant'}</strong><span className="sub-cell">{ticket.requester_email ?? 'Email not provided'}</span></td>
-                  <td><span className={'type-badge type-' + ticket.request_type}>{ticket.request_type === 'incident' ? '● ' : ticket.request_type === 'change_request' ? '↗ ' : '＋ '}{ticketTypeLabels[ticket.request_type]}</span></td>
-                  <td><span className={'impact impact-' + ticket.impact}>{impactLabels[ticket.impact]}</span></td>
-                  <td><span className={'status-badge status-' + ticket.status}><i />{statusLabels[ticket.status]}</span></td>
-                  <td className="date-cell">{new Date(ticket.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</td>
-                  <td className="row-arrow">›</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="table-footer"><span>Showing <strong>{filtered.length}</strong> of <strong>{tickets.length}</strong> tickets</span><span className="secure-note">⌑ Secure workspace</span></div>
-      </div>
     </section>
   );
 }
