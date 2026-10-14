@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { SupportTicket, TicketStatus, TicketType } from '../../domain/tickets/types';
-import { impactLabels, statusLabels, ticketTypeLabels } from '../../domain/tickets/types';
+import { useEffect, useState } from 'react';
+import type { SupportTicket } from '../../domain/tickets/types';
+
 import { listCustomerRepliedTicketIds, subscribeToCustomerReplies } from '../../domain/tickets/customerReplyService';
 import { requireSupabase } from '../../lib/supabase';
-import { TicketOverview, type TicketOverviewFilter } from './overview/TicketOverview';
-import './ticketListToolbar.css';
+import { TicketOverview } from './overview/TicketOverview';
 
 type Props = {
   tickets: SupportTicket[];
@@ -14,28 +13,7 @@ type Props = {
   onSelect: (ticket: SupportTicket) => void;
 };
 
-function matchesOverviewFilter(ticket: SupportTicket, filter: TicketOverviewFilter, customerRepliedIds: ReadonlySet<string>) {
-  switch (filter) {
-    case 'incident': return ticket.request_type === 'incident';
-    case 'change_request': return ticket.request_type === 'change_request';
-    case 'request_item': return ticket.request_type === 'request_item';
-    case 'in_progress': return ticket.status === 'in_progress';
-    case 'p1': return ticket.impact === 'critical';
-    case 'p2': return ticket.impact === 'high';
-    case 'high_in_progress': return ticket.status === 'in_progress' && (ticket.impact === 'high' || ticket.impact === 'critical');
-    case 'customer_replied': return customerRepliedIds.has(ticket.id);
-    case 'open': return ticket.status === 'open' || ticket.status === 'in_progress';
-    case 'resolved': return ticket.status === 'resolved' || ticket.status === 'closed';
-    case 'recent': return new Date(ticket.updated_at).getTime() >= Date.now() - 7 * 24 * 60 * 60 * 1000;
-    default: return true;
-  }
-}
-
 export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }: Props) {
-  const [search, setSearch] = useState('');
-  const [status, setStatus] = useState<'all' | TicketStatus>('all');
-  const [type, setType] = useState<'all' | TicketType>('all');
-  const [overviewFilter, setOverviewFilter] = useState<TicketOverviewFilter>('all');
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
   const [replyLoadError, setReplyLoadError] = useState('');
 
@@ -63,16 +41,7 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
 
   const totalTickets = tickets.length;
 
-  const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    return tickets.filter(ticket =>
-      matchesOverviewFilter(ticket, overviewFilter, customerRepliedIds) &&
-      (status === 'all' || ticket.status === status) &&
-      (type === 'all' || ticket.request_type === type) &&
-      (!term || [ticket.request_number, ticket.subject, ticket.requester_email, ticket.restaurant?.name]
-        .some(value => value?.toLowerCase().includes(term)))
-    );
-  }, [tickets, search, status, type, overviewFilter, customerRepliedIds]);
+
 
   return (
     <section className="tickets-page">
@@ -111,8 +80,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
       <TicketOverview
         tickets={tickets}
         customerRepliedIds={customerRepliedIds}
-        activeFilter={overviewFilter}
-        onFilterChange={setOverviewFilter}
       />
 
 
