@@ -55,6 +55,8 @@ export function TicketDashboard({ tickets, onRefresh }: Props) {
       <TicketOverview
         tickets={tickets}
         customerRepliedIds={customerRepliedIds}
+        activeFilter="all"
+        onFilterChange={() => undefined}
       />
 
     </section>
