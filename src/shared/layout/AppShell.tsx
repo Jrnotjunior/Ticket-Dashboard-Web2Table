@@ -20,7 +20,7 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
                 alt=""
               />
               <span className="topbar-brand-copy">
-                <strong>Web2Table</strong>
+                <strong>Web<span className="brand-number-two">2</span>Table</strong>
                 <small>SUPPORT DESK</small>
               </span>
             </a>
