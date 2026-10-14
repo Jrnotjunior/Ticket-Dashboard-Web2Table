@@ -57,11 +57,19 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
   const [activeFilter, setActiveFilter] = useState<TicketOverviewFilter | null>(() => getRequestedFilter());
   const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('search') ?? '');
+  const [categorySearch, setCategorySearch] = useState('');
+  const [categoryStatus, setCategoryStatus] = useState('all');
+  const [categoryType, setCategoryType] = useState('all');
+  const [categoryImpact, setCategoryImpact] = useState('all');
 
   useEffect(() => {
     const syncLocation = () => {
       setActiveFilter(getRequestedFilter());
       setSearch(new URLSearchParams(window.location.search).get('search') ?? '');
+      setCategorySearch('');
+      setCategoryStatus('all');
+      setCategoryType('all');
+      setCategoryImpact('all');
     };
     window.addEventListener('popstate', syncLocation);
     return () => window.removeEventListener('popstate', syncLocation);
@@ -94,8 +102,13 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
     };
   }, [tickets]);
 
+  const categoryQuery = categorySearch.trim().toLowerCase();
   const filteredTickets = activeFilter
     ? tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds))
+      .filter(ticket => !categoryQuery || [ticket.request_number, ticket.subject, ticket.description, ticket.restaurant?.name, ticket.requester_email, ticketTypeLabels[ticket.request_type]].some(value => value?.toLowerCase().includes(categoryQuery)))
+      .filter(ticket => categoryStatus === 'all' || ticket.status === categoryStatus)
+      .filter(ticket => categoryType === 'all' || ticket.request_type === categoryType)
+      .filter(ticket => categoryImpact === 'all' || ticket.impact === categoryImpact)
     : [];
   const returnTo = window.location.pathname + window.location.search + window.location.hash;
   const normalizedSearch = search.trim().toLowerCase();
@@ -113,6 +126,13 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
               <p className="muted">Tickets matching this category. Select a ticket to view its details.</p>
             </div>
           </div>
+          <div className="category-ticket-filters">
+            <label className="category-ticket-search"><span aria-hidden="true">⌕</span><input type="search" value={categorySearch} onChange={event => setCategorySearch(event.target.value)} placeholder="Search tickets…" aria-label="Search tickets in this category" />{categorySearch && <button type="button" onClick={() => setCategorySearch('')} aria-label="Clear search">×</button>}</label>
+            <label className="category-filter-select"><span className="sr-only">Filter by status</span><select value={categoryStatus} onChange={event => setCategoryStatus(event.target.value)} aria-label="Filter by status"><option value="all">All statuses</option>{Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+            <label className="category-filter-select"><span className="sr-only">Filter by request type</span><select value={categoryType} onChange={event => setCategoryType(event.target.value)} aria-label="Filter by request type"><option value="all">All types</option>{Object.entries(ticketTypeLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+            <label className="category-filter-select"><span className="sr-only">Filter by impact</span><select value={categoryImpact} onChange={event => setCategoryImpact(event.target.value)} aria-label="Filter by impact"><option value="all">All impacts</option>{Object.entries(impactLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+          </div>
+          <p className="category-ticket-count">Showing {filteredTickets.length} of {tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds)).length} tickets</p>
           {error && <p className="filtered-ticket-message">{error}</p>}
           {loading && tickets.length === 0 ? <p className="filtered-ticket-message">Loading tickets…</p> :
             filteredTickets.length === 0 ? <p className="filtered-ticket-message">No tickets match this category.</p> : (
