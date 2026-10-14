@@ -1,0 +1,10 @@
+.main-area{margin-left:0;min-width:0}
+.topbar{height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 28px;background:#000;border-bottom:1px solid rgba(255,255,255,.2)}
+.topbar-breadcrumb{display:flex;align-items:center;gap:12px;min-width:0;font-size:13px}
+.topbar-breadcrumb strong{color:#fff;font-weight:700}
+.topbar-actions{display:flex;align-items:center;justify-content:flex-end;gap:20px;min-width:0}
+.topbar-actions .live-label{white-space:nowrap}
+.topbar-user{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#d0d0d0;font-size:12px}
+.topbar-logout{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;padding:8px 12px}
+@media(max-width:700px){.topbar{height:auto;min-height:56px;padding:10px 14px;gap:12px}.topbar-actions{gap:10px}.topbar-actions .live-label{display:none}.topbar-user{max-width:120px;font-size:11px}.topbar-breadcrumb{font-size:12px;gap:7px}.topbar-logout{padding:7px 9px;font-size:12px}}
+@media(max-width:420px){.topbar-user{display:none}}
