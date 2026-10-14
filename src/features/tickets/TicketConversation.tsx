@@ -83,6 +83,13 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
       <button className="button button-primary button-compact" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
     </form>}
     <div ref={conversationListRef} className="conversation-list" aria-live="polite">
+      {attachments.some(item => !item.message_id) && <article className="conversation-message from-requester">
+        <div className="conversation-message-meta"><strong>Ticket attachments</strong></div>
+        <ul className="conversation-attachments">{attachments.filter(item => !item.message_id).map(attachment => <li key={attachment.id}>
+          {attachmentUrls[attachment.id] ? <a href={attachmentUrls[attachment.id]} target="_blank" rel="noreferrer">{attachment.file_name}</a> : <span>{attachment.file_name} (unavailable)</span>}
+          <small>{(attachment.file_size / 1024 / 1024).toFixed(2)} MB</small>
+        </li>)}</ul>
+      </article>}
       {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : [...messages].reverse().map((item) => {
         const fromRequester = item.sender_user_id === ticket.requester_user_id;
         const messageAttachments = visibleAttachments(item.id);
