@@ -203,3 +203,6 @@ td { font-size: 14px; }
 /* Keep message visibility selector compact instead of stretching across the form. */
 .conversation-composer label select{box-sizing:border-box;width:320px;max-width:100%;align-self:flex-start}
 @media(max-width:480px){.conversation-composer label select{width:100%;max-width:100%}}
+
+/* Remove the oversized red focus box around ticket numbers; keep a subtle underline cue. */
+.ticket-number-link:focus-visible{outline:none;outline-offset:0;box-shadow:none;text-decoration:underline}
