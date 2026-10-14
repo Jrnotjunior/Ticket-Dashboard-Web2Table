@@ -160,12 +160,12 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             <label className="category-filter-select"><span className="sr-only">Filter by status</span><select value={categoryStatus} onChange={event => setCategoryStatus(event.target.value)} aria-label="Filter by status"><option value="all">All statuses</option>{Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
             <label className="category-filter-select"><span className="sr-only">Filter by request type</span><select value={categoryType} onChange={event => setCategoryType(event.target.value)} aria-label="Filter by request type"><option value="all">All types</option>{Object.entries(ticketTypeLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
             <label className="category-filter-select"><span className="sr-only">Filter by impact</span><select value={categoryImpact} onChange={event => setCategoryImpact(event.target.value)} aria-label="Filter by impact"><option value="all">All impacts</option>{Object.entries(impactLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-          </div>
-          <div className="category-ticket-results-toolbar">
-            <p className="category-ticket-count">Showing {filteredTickets.length} of {tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds)).length} tickets</p>
             <button className="category-export-button" type="button" onClick={() => exportTicketsCsv(filteredTickets, `web2table-${activeFilter}-tickets.csv`)} disabled={filteredTickets.length === 0} title="Export the tickets matching the current search and filters">
               <span aria-hidden="true">⇩</span> Export CSV
             </button>
+          </div>
+          <div className="category-ticket-results-toolbar">
+            <p className="category-ticket-count">Showing {filteredTickets.length} of {tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds)).length} tickets</p>
           </div>
           {error && <p className="filtered-ticket-message">{error}</p>}
           {loading && tickets.length === 0 ? <p className="filtered-ticket-message">Loading tickets…</p> :
