@@ -34,12 +34,13 @@ type Props = {
 
 export function TicketOverview({ tickets, customerRepliedIds }: Props) {
   const isHighPriority = (ticket: SupportTicket) => ticket.impact === 'high' || ticket.impact === 'critical';
+  const isActiveTicket = (ticket: SupportTicket) => ticket.status !== 'resolved' && ticket.status !== 'closed' && ticket.status !== 'cancelled';
 
   const items: OverviewItem[] = [
     { id: 'all', label: 'All Tickets', hint: 'Total requests', count: tickets.length, icon: '▤' },
     { id: 'high_in_progress', label: 'High Priority · In Progress', hint: 'High / critical and in progress', count: tickets.filter(t => t.status === 'in_progress' && isHighPriority(t)).length, icon: '♨', tone: 'warning' },
-    { id: 'p1', label: 'P1 · Critical', hint: 'Critical impact', count: tickets.filter(t => t.impact === 'critical').length, icon: '⚠', tone: 'critical' },
-    { id: 'p2', label: 'P2 · High', hint: 'High impact', count: tickets.filter(t => t.impact === 'high').length, icon: 'ⓘ', tone: 'warning' },
+    { id: 'p1', label: 'P1 · Critical', hint: 'Critical impact', count: tickets.filter(t => isActiveTicket(t) && t.impact === 'critical').length, icon: '⚠', tone: 'critical' },
+    { id: 'p2', label: 'P2 · High', hint: 'High impact', count: tickets.filter(t => isActiveTicket(t) && t.impact === 'high').length, icon: 'ⓘ', tone: 'warning' },
     { id: 'incident', label: 'Incidents', hint: 'Incident tickets', count: tickets.filter(t => t.request_type === 'incident').length, icon: '!', tone: 'critical' },
     { id: 'change_request', label: 'Change Requests', hint: 'Planned changes', count: tickets.filter(t => t.request_type === 'change_request').length, icon: '↗' },
     { id: 'request_item', label: 'RTM / Request Items', hint: 'Service requests', count: tickets.filter(t => t.request_type === 'request_item').length, icon: '▤' },
