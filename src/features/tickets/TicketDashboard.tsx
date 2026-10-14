@@ -150,8 +150,6 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
           <TicketOverview
             tickets={tickets}
             customerRepliedIds={customerRepliedIds}
-            activeFilter="all"
-            onFilterChange={() => undefined}
           />
         </>
       )}
