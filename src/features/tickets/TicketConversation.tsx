@@ -36,7 +36,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
 
   useEffect(() => {
     const list = conversationListRef.current;
-    if (list) list.scrollTop = list.scrollHeight;
+    if (list) list.scrollTop = 0;
   }, [messages, loading]);
 
   async function submit(event: FormEvent) {
@@ -55,7 +55,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
   return <section className="ticket-conversation">
     <div className="conversation-heading"><div><h4>Conversation</h4><p>Replies are shared with the restaurant. Internal notes are only visible to support administrators.</p></div></div>
     <div ref={conversationListRef} className="conversation-list" aria-live="polite">
-      {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : messages.map((item) => {
+      {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : [...messages].reverse().map((item) => {
         const fromRequester = item.sender_user_id === ticket.requester_user_id;
         return <article key={item.id} className={'conversation-message ' + (item.visibility === 'internal' ? 'is-internal' : fromRequester ? 'from-requester' : 'from-support')}>
           <div className="conversation-message-meta"><strong>{item.visibility === 'internal' ? 'Internal note' : fromRequester ? 'Restaurant owner' : 'Support team'}</strong><time>{new Date(item.created_at).toLocaleString()}</time></div>
