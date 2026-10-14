@@ -62,12 +62,11 @@ export function TicketOverview({ tickets, customerRepliedIds, activeFilter, onFi
       </header>
       <div className="ticket-overview-grid">
         {items.map(item => (
-          <button
-            type="button"
+          <a
             key={item.id}
+            href={`?filter=${item.id}`}
             className={`ticket-overview-card${item.tone ? ` is-${item.tone}` : ''}${activeFilter === item.id ? ' is-active' : ''}`}
-            aria-pressed={activeFilter === item.id}
-            onClick={() => onFilterChange(item.id)}
+            aria-current={activeFilter === item.id ? 'page' : undefined}
           >
             <span className="ticket-overview-card-top">
               <span className="ticket-overview-icon" aria-hidden="true">{item.icon}</span>
@@ -75,7 +74,7 @@ export function TicketOverview({ tickets, customerRepliedIds, activeFilter, onFi
             </span>
             <span className="ticket-overview-label">{item.label}</span>
             <span className="ticket-overview-hint">{item.hint}</span>
-          </button>
+          </a>
         ))}
       </div>
     </section>
