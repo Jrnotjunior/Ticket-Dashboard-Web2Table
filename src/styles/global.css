@@ -153,3 +153,8 @@ td { font-size: 14px; }
 
 /* Compact action buttons for ticket status and conversation replies. */
 .button-compact{width:auto;min-width:116px;min-height:36px;padding:8px 16px;align-self:flex-start;flex:0 0 auto}.status-editor-inline .button-compact{align-self:flex-start;width:auto;min-width:116px}.conversation-composer .button-compact{align-self:flex-start;width:auto;min-width:116px}
+
+/* Keep form controls visually compact instead of stretching across the page. */
+.status-editor-inline select{width:min(100%,280px);max-width:280px}
+.conversation-composer label select{width:min(100%,360px);max-width:360px}
+@media(max-width:700px){.status-editor-inline select,.conversation-composer label select{width:100%;max-width:100%}}
