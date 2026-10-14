@@ -150,3 +150,6 @@ td { font-size: 14px; }
 /* Ticket status editor lives beside the summary fields. */
 .detail-status-field{align-items:stretch!important;gap:8px!important}.status-editor-inline{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin-top:2px}.status-editor-inline label{font-size:11px;font-weight:700;color:#fff}.status-editor-inline select{width:100%;min-width:0;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#0b0b0b;color:#fff;padding:0 10px;font-size:12px}.status-editor-inline .button{min-height:34px;padding:7px 12px}.status-editor-inline .alert{margin:0}
 @media(max-width:700px){.detail-grid{grid-template-columns:1fr}.status-editor-inline .button{width:100%}}
+
+/* Compact action buttons for ticket status and conversation replies. */
+.button-compact{width:auto;min-width:116px;min-height:36px;padding:8px 16px;align-self:flex-start;flex:0 0 auto}.status-editor-inline .button-compact{align-self:flex-start;width:auto;min-width:116px}.conversation-composer .button-compact{align-self:flex-start;width:auto;min-width:116px}
