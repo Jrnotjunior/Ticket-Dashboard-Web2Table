@@ -30,10 +30,11 @@ const filterLabels: Record<TicketOverviewFilter, string> = {
 };
 
 function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, customerRepliedIds: ReadonlySet<string>) {
+  const isActive = ticket.status !== 'resolved' && ticket.status !== 'closed' && ticket.status !== 'cancelled';
   switch (filter) {
-    case 'incident': return ticket.request_type === 'incident';
-    case 'change_request': return ticket.request_type === 'change_request';
-    case 'request_item': return ticket.request_type === 'request_item';
+    case 'incident': return isActive && ticket.request_type === 'incident';
+    case 'change_request': return isActive && ticket.request_type === 'change_request';
+    case 'request_item': return isActive && ticket.request_type === 'request_item';
     case 'incident_in_progress': return ticket.request_type === 'incident' && ticket.status === 'in_progress';
     case 'change_in_progress': return ticket.request_type === 'change_request' && ticket.status === 'in_progress';
     case 'request_item_in_progress': return ticket.request_type === 'request_item' && ticket.status === 'in_progress';
