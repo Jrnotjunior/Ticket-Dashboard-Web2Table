@@ -26,7 +26,6 @@ const filterLabels: Record<TicketOverviewFilter, string> = {
   incident_replied: 'Incident Updated by Customer',
   change_replied: 'Change Updated by Customer',
   request_item_replied: 'RTM Updated by Customer',
-  open: 'Open Tickets',
   resolved: 'Resolved / Closed',
 };
 
@@ -44,7 +43,6 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
     case 'incident_replied': return ticket.request_type === 'incident' && customerRepliedIds.has(ticket.id);
     case 'change_replied': return ticket.request_type === 'change_request' && customerRepliedIds.has(ticket.id);
     case 'request_item_replied': return ticket.request_type === 'request_item' && customerRepliedIds.has(ticket.id);
-    case 'open': return ticket.status === 'open' || ticket.status === 'in_progress';
     case 'resolved': return ticket.status === 'resolved' || ticket.status === 'closed';
     default: return true;
   }
