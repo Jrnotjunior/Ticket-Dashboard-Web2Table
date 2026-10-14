@@ -9,11 +9,10 @@ type Props = {
   tickets: SupportTicket[];
   loading: boolean;
   error: string;
-  onRefresh: () => void;
   onSelect: (ticket: SupportTicket) => void;
 };
 
-export function TicketDashboard({ tickets, onRefresh }: Props) {
+export function TicketDashboard({ tickets }: Props) {
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -46,9 +45,6 @@ export function TicketDashboard({ tickets, onRefresh }: Props) {
           <p className="eyebrow">CUSTOMER OPERATIONS</p>
           <h1>Support tickets <span className="heading-count">{totalTickets}</span></h1>
           <p className="muted">Review, prioritize, and resolve requests from your restaurant customers.</p>
-        </div>
-        <div className="page-heading-actions">
-          <button className="button button-secondary" onClick={onRefresh}>↻ <span>Refresh</span></button>
         </div>
       </div>
 
