@@ -20,5 +20,5 @@ export default function App(){
  if(!supabase)return <div className="setup-screen"><div className="setup-card"><span className="brand-mark">W</span><h1>Support Desk setup</h1><p>Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> to the app environment variables.</p></div></div>;
  if(booting)return <div className="loading-screen"><span className="spinner"/> Checking secure session…</div>;
  if(!user)return <LoginPage onSubmit={handleSignIn} busy={busy} error={loginError}/>;
- return <MfaGate><AppShell userEmail={user.email??'Administrator'} onSignOut={()=>void signOut()}><TicketDashboard tickets={tickets} loading={loadingTickets} error={ticketError} onSelect={setSelected}/>{selected&&<TicketDetails ticket={tickets.find(t=>t.id===selected.id)??selected} accessLevel={accessLevel} onClose={closeTicket} onSaved={refresh}/>}</AppShell></MfaGate>;
+ return <MfaGate><AppShell userEmail={user.email??'Administrator'} onSignOut={()=>void signOut()}><TicketDashboard tickets={tickets} loading={loadingTickets} error={ticketError}/>{selected&&<TicketDetails ticket={tickets.find(t=>t.id===selected.id)??selected} accessLevel={accessLevel} onClose={closeTicket} onSaved={refresh}/>}</AppShell></MfaGate>;
 }
