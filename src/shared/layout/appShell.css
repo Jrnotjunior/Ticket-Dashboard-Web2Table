@@ -16,3 +16,5 @@
 @media(max-width:760px){.topbar{height:auto;min-height:62px;padding:10px 16px;gap:14px;flex-wrap:wrap}.topbar-leading{gap:14px}.topbar-brand-logo{width:32px;height:32px;flex-basis:32px}.topbar-brand-copy strong{font-size:15px}.topbar-brand-copy small{font-size:8px}.topbar-breadcrumb{font-size:12px;gap:7px}.topbar-actions{margin-left:auto;gap:10px}.topbar-actions .live-label{display:none}.topbar-user{max-width:150px;font-size:11px}.topbar-logout{padding:0;font-size:20px}}
 @media(max-width:520px){.topbar{align-items:flex-start}.topbar-leading{width:100%;justify-content:space-between}.topbar-actions{width:100%;justify-content:flex-end}.topbar-user{max-width:180px}.topbar-breadcrumb{font-size:11px}}
 @media(max-width:360px){.topbar-breadcrumb{display:none}.topbar-leading{justify-content:flex-start}.topbar-actions{justify-content:space-between}}
+
+.topbar-brand-copy .brand-number-two,.brand-lockup .brand-number-two{color:#ed1c24}
