@@ -4,7 +4,8 @@ import { impactLabels, statusLabels, ticketTypeLabels } from '../../domain/ticke
 import './ticketSearch.css';
 import { listCustomerRepliedTicketIds, subscribeToCustomerReplies } from '../../domain/tickets/customerReplyService';
 import { requireSupabase } from '../../lib/supabase';
-import { TicketOverview, type TicketOverviewFilter } from './overview/TicketOverview';
+import { TicketOverview, type TicketOverviewFilter, type TicketOverviewCounts } from './overview/TicketOverview';
+import { getTicketOverviewCounts, subscribeToTicketOverviewCounts } from '../../domain/tickets/ticketOverviewService';
 
 type Props = {
   tickets: SupportTicket[];
@@ -85,6 +86,7 @@ function getRequestedFilter(): TicketOverviewFilter | null {
 
 export function TicketDashboard({ tickets, loading, error }: Props) {
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
+  const [overviewCounts, setOverviewCounts] = useState<TicketOverviewCounts | null>(null);
   const [activeFilter, setActiveFilter] = useState<TicketOverviewFilter | null>(() => getRequestedFilter());
   const [search, setSearch] = useState(() => new URLSearchParams(window.location.search).get('search') ?? '');
   const [categorySearch, setCategorySearch] = useState('');
@@ -113,6 +115,29 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
     url.searchParams.delete('ticket');
     window.history.replaceState({}, '', url.pathname + url.search + url.hash);
   }
+
+  useEffect(() => {
+    let active = true;
+    let refreshing = false;
+    const refreshCounts = async () => {
+      if (refreshing) return;
+      refreshing = true;
+      try {
+        const counts = await getTicketOverviewCounts();
+        if (active) setOverviewCounts(counts);
+      } catch (countError) {
+        console.error('Unable to load ticket overview counts from Supabase:', countError);
+      } finally {
+        refreshing = false;
+      }
+    };
+    void refreshCounts();
+    const channel = subscribeToTicketOverviewCounts(() => { void refreshCounts(); });
+    return () => {
+      active = false;
+      void requireSupabase().removeChannel(channel);
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -218,10 +243,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
               </div> : <p className="filtered-ticket-message">No tickets match “{search}”.</p>}
             </section>
           )}
-          <TicketOverview
-            tickets={tickets}
-            customerRepliedIds={customerRepliedIds}
-          />
+          <TicketOverview tickets={tickets} counts={overviewCounts} />
         </>
       )}
     </section>
