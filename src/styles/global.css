@@ -226,3 +226,18 @@ td { font-size: 14px; }
   letter-spacing:0!important;
   padding:7px 12px!important;
 }
+
+/* Make action buttons shrink to their smaller labels instead of retaining the old large minimum size. */
+.status-editor-inline .button-compact,
+.conversation-composer .button-compact{
+  display:inline-flex!important;
+  width:fit-content!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:auto!important;
+  padding:6px 10px!important;
+  font-size:10px!important;
+  line-height:1.2!important;
+  font-weight:600!important;
+  flex:0 0 auto!important;
+}
