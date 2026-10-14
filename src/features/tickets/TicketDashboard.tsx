@@ -13,9 +13,8 @@ type Props = {
   onSelect: (ticket: SupportTicket) => void;
 };
 
-export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }: Props) {
+export function TicketDashboard({ tickets, onRefresh }: Props) {
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
-  const [replyLoadError, setReplyLoadError] = useState('');
 
   useEffect(() => {
     let active = true;
@@ -24,10 +23,9 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
         const ids = await listCustomerRepliedTicketIds(tickets);
         if (active) {
           setCustomerRepliedIds(ids);
-          setReplyLoadError('');
         }
       } catch {
-        if (active) setReplyLoadError('Customer reply counts could not be loaded.');
+        // Keep the dashboard available if reply-count loading fails.
       }
     };
 
@@ -41,8 +39,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
 
   const totalTickets = tickets.length;
 
-
-
   return (
     <section className="tickets-page">
       <div className="page-heading">
@@ -52,27 +48,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
           <p className="muted">Review, prioritize, and resolve requests from your restaurant customers.</p>
         </div>
         <div className="page-heading-actions">
-          <div className="ticket-list-toolbar">
-            <label className="search-box">
-              <span>⌕</span>
-              <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search tickets…" aria-label="Search tickets" />
-            </label>
-            <div className="table-filters">
-              <select aria-label="Filter by status" value={status} onChange={event => setStatus(event.target.value as typeof status)}>
-                <option value="all">All statuses</option>
-                {Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-              </select>
-              <select aria-label="Filter by type" value={type} onChange={event => setType(event.target.value as typeof type)}>
-                <option value="all">All types</option>
-                {Object.entries(ticketTypeLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-              </select>
-              {(overviewFilter !== 'all' || status !== 'all' || type !== 'all' || search) && (
-                <button className="button button-secondary" onClick={() => { setOverviewFilter('all'); setStatus('all'); setType('all'); setSearch(''); }}>
-                  Clear filters
-                </button>
-              )}
-            </div>
-          </div>
           <button className="button button-secondary" onClick={onRefresh}>↻ <span>Refresh</span></button>
         </div>
       </div>
@@ -81,8 +56,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
         tickets={tickets}
         customerRepliedIds={customerRepliedIds}
       />
-
-
 
     </section>
   );
