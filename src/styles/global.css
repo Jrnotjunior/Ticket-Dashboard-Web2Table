@@ -199,3 +199,7 @@ td { font-size: 14px; }
 .status-editor-controls{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
 .status-editor-inline select{width:130px!important;min-width:130px!important;max-width:130px!important;flex:0 0 130px}
 @media(max-width:480px){.detail-grid{grid-template-columns:minmax(0,1fr)}.detail-grid>div:nth-child(1),.detail-grid>div:nth-child(2),.detail-grid>div:nth-child(4),.detail-grid>.detail-status-field{grid-column:1;grid-row:auto}.detail-status-field .status-editor-inline label{font-size:13px}}
+
+/* Keep message visibility selector compact instead of stretching across the form. */
+.conversation-composer label select{box-sizing:border-box;width:320px;max-width:100%;align-self:flex-start}
+@media(max-width:480px){.conversation-composer label select{width:100%;max-width:100%}}
