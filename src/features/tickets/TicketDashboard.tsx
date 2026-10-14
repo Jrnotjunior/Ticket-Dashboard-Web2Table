@@ -28,7 +28,6 @@ const filterLabels: Record<TicketOverviewFilter, string> = {
   request_item_replied: 'RTM Updated by Customer',
   open: 'Open Tickets',
   resolved: 'Resolved / Closed',
-  recent: 'Recently Updated',
 };
 
 function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, customerRepliedIds: ReadonlySet<string>) {
@@ -48,7 +47,6 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
     case 'request_item_replied': return ticket.request_type === 'request_item' && customerRepliedIds.has(ticket.id);
     case 'open': return ticket.status === 'open' || ticket.status === 'in_progress';
     case 'resolved': return ticket.status === 'resolved' || ticket.status === 'closed';
-    case 'recent': return new Date(ticket.updated_at).getTime() >= recentCutoff;
     default: return true;
   }
 }
