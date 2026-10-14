@@ -17,7 +17,7 @@ export type TicketOverviewFilter =
   | 'request_item_replied'
   | 'open'
   | 'resolved'
-  | 'recent';
+  ;
 
 type OverviewItem = {
   id: TicketOverviewFilter;
@@ -34,7 +34,6 @@ type Props = {
 };
 
 export function TicketOverview({ tickets, customerRepliedIds }: Props) {
-  const recentCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const isOpen = (ticket: SupportTicket) => ticket.status === 'open' || ticket.status === 'in_progress';
   const isHighPriority = (ticket: SupportTicket) => ticket.impact === 'high' || ticket.impact === 'critical';
 
@@ -54,7 +53,6 @@ export function TicketOverview({ tickets, customerRepliedIds }: Props) {
     { id: 'request_item_replied', label: 'RTM Updated by Customer', hint: 'Request items with a new customer reply', count: tickets.filter(t => t.request_type === 'request_item' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
     { id: 'open', label: 'Open Tickets', hint: 'Open or in progress', count: tickets.filter(isOpen).length, icon: '○' },
     { id: 'resolved', label: 'Resolved / Closed', hint: 'Completed requests', count: tickets.filter(t => t.status === 'resolved' || t.status === 'closed').length, icon: '✓' },
-    { id: 'recent', label: 'Recently Updated', hint: 'Updated in the last 7 days', count: tickets.filter(t => new Date(t.updated_at).getTime() >= recentCutoff).length, icon: '↻' },
   ];
 
   return (
