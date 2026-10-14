@@ -17,7 +17,9 @@ const filterLabels: Record<TicketOverviewFilter, string> = {
   incident: 'Incidents',
   change_request: 'Change Requests',
   request_item: 'RTM / Request Items',
-  in_progress: 'In Progress',
+  incident_in_progress: 'Incident In Progress',
+  change_in_progress: 'Change In Progress',
+  request_item_in_progress: 'RTM In Progress',
   p1: 'P1 · Critical',
   p2: 'P2 · High',
   high_in_progress: 'High Priority · In Progress',
@@ -35,7 +37,9 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
     case 'incident': return ticket.request_type === 'incident';
     case 'change_request': return ticket.request_type === 'change_request';
     case 'request_item': return ticket.request_type === 'request_item';
-    case 'in_progress': return ticket.status === 'in_progress';
+    case 'incident_in_progress': return ticket.request_type === 'incident' && ticket.status === 'in_progress';
+    case 'change_in_progress': return ticket.request_type === 'change_request' && ticket.status === 'in_progress';
+    case 'request_item_in_progress': return ticket.request_type === 'request_item' && ticket.status === 'in_progress';
     case 'p1': return ticket.impact === 'critical';
     case 'p2': return ticket.impact === 'high';
     case 'high_in_progress': return ticket.status === 'in_progress' && (ticket.impact === 'high' || ticket.impact === 'critical');
