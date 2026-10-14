@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { requireSupabase } from '../../lib/supabase';
-import { listTicketMessages, sendTicketMessage, subscribeToTicketMessages, type SupportMessage } from '../../domain/tickets/messageService';
+import { listTicketMessages, TICKET_MESSAGE_PAGE_SIZE, sendTicketMessage, subscribeToTicketMessages, type SupportMessage } from '../../domain/tickets/messageService';
 import { createSupportAttachmentUrl, listSupportAttachments, uploadSupportAttachments, type SupportAttachment } from '../../domain/tickets/attachmentService';
 import type { SupportTicket } from '../../domain/tickets/types';
 
@@ -16,6 +16,8 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
   const [files, setFiles] = useState<File[]>([]);
   const [visibility, setVisibility] = useState<SupportMessage['visibility']>('public');
   const [loading, setLoading] = useState(true);
+  const [loadingOlder, setLoadingOlder] = useState(false);
+  const [hasOlderMessages, setHasOlderMessages] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const canReply = accessLevel === 'owner' || accessLevel === 'administrator';
@@ -28,6 +30,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
         listSupportAttachments(ticket.id),
       ]);
       setMessages(rows);
+      setHasOlderMessages(rows.length === TICKET_MESSAGE_PAGE_SIZE);
       setAttachments(attachmentRows);
       const urls = await Promise.all(attachmentRows.map(async (attachment) => {
         try { return [attachment.id, await createSupportAttachmentUrl(attachment.storage_path)] as const; }
@@ -51,6 +54,20 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
     const list = conversationListRef.current;
     if (list) list.scrollTop = 0;
   }, [messages, loading]);
+
+  async function loadOlderMessages() {
+    if (loadingOlder || !hasOlderMessages) return;
+    setLoadingOlder(true);
+    try {
+      const olderRows = await listTicketMessages(ticket.id, messages.length);
+      setMessages(current => [...current, ...olderRows]);
+      setHasOlderMessages(olderRows.length === TICKET_MESSAGE_PAGE_SIZE);
+    } catch (e) {
+      setError(e && typeof e === 'object' && 'message' in e ? String((e as { message: unknown }).message) : 'Could not load older messages.');
+    } finally {
+      setLoadingOlder(false);
+    }
+  }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -83,6 +100,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
       <button className="button button-primary button-compact" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
     </form>}
     <div ref={conversationListRef} className="conversation-list" aria-live="polite">
+      {!loading && hasOlderMessages && <button className="button button-secondary button-compact" type="button" onClick={() => void loadOlderMessages()} disabled={loadingOlder}>{loadingOlder ? 'Loading older messages…' : 'Load older messages'}</button>}
       {attachments.some(item => !item.message_id) && <article className="conversation-message from-requester">
         <div className="conversation-message-meta"><strong>Ticket attachments</strong></div>
         <ul className="conversation-attachments">{attachments.filter(item => !item.message_id).map(attachment => <li key={attachment.id}>
@@ -90,7 +108,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
           <small>{(attachment.file_size / 1024 / 1024).toFixed(2)} MB</small>
         </li>)}</ul>
       </article>}
-      {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : [...messages].reverse().map((item) => {
+      {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : messages.map((item) => {
         const fromRequester = item.sender_user_id === ticket.requester_user_id;
         const messageAttachments = visibleAttachments(item.id);
         return <article key={item.id} className={'conversation-message ' + (item.visibility === 'internal' ? 'is-internal' : fromRequester ? 'from-requester' : 'from-support')}>
