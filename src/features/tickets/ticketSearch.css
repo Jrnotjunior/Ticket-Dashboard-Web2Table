@@ -11,3 +11,16 @@
 .ticket-search-results-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-size:12px}
 .ticket-search-results-heading span{color:#aaa}
 @media(max-width:760px){.ticket-dashboard-heading-row{align-items:stretch;flex-direction:column;gap:14px}.ticket-global-search{width:100%;max-width:none;flex:0 0 40px}}
+
+.category-ticket-filters{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin:20px 0 8px;flex-wrap:wrap}
+.category-ticket-search{display:flex;align-items:center;gap:9px;width:min(100%,330px);height:40px;flex:1 1 250px;padding:0 12px;border:1px solid #414141;border-radius:8px;background:#080808;color:#ddd;box-shadow:none!important}
+.category-ticket-search:focus-within{outline:none;box-shadow:none!important;border-color:#555}
+.category-ticket-search>span{font-size:19px;line-height:1;color:#eee}
+.category-ticket-search input{width:100%;min-width:0;border:0;outline:0!important;box-shadow:none!important;background:transparent;color:#fff;font:inherit;font-size:12px}
+.category-ticket-search input:focus,.category-ticket-search input:focus-visible{outline:none!important;box-shadow:none!important}
+.category-ticket-search input::placeholder{color:#929292}
+.category-ticket-search button{border:0;background:transparent;color:#ddd;font-size:20px;cursor:pointer;box-shadow:none}
+.category-filter-select select{height:40px;min-width:128px;max-width:180px;padding:0 12px;border:1px solid #414141;border-radius:8px;background:#080808;color:#fff;font:inherit;font-size:12px;box-shadow:none}
+.category-ticket-count{margin:0 0 12px;color:#999;font-size:11px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:760px){.category-ticket-filters{align-items:stretch;justify-content:stretch}.category-ticket-search{flex:1 1 100%;width:100%}.category-filter-select{flex:1 1 calc(33.333% - 8px);min-width:0}.category-filter-select select{width:100%;min-width:0;max-width:none;padding:0 7px}}
