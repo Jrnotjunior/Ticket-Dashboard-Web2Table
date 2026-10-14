@@ -21,7 +21,9 @@ const filterLabels: Record<TicketOverviewFilter, string> = {
   p1: 'P1 · Critical',
   p2: 'P2 · High',
   high_in_progress: 'High Priority · In Progress',
-  customer_replied: 'Customer Replied',
+  incident_replied: 'Incident — Customer Replied',
+  change_replied: 'Change Request — Customer Replied',
+  request_item_replied: 'RTM — Customer Replied',
   open: 'Open Tickets',
   resolved: 'Resolved / Closed',
   recent: 'Recently Updated',
@@ -37,7 +39,9 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
     case 'p1': return ticket.impact === 'critical';
     case 'p2': return ticket.impact === 'high';
     case 'high_in_progress': return ticket.status === 'in_progress' && (ticket.impact === 'high' || ticket.impact === 'critical');
-    case 'customer_replied': return customerRepliedIds.has(ticket.id);
+    case 'incident_replied': return ticket.request_type === 'incident' && customerRepliedIds.has(ticket.id);
+    case 'change_replied': return ticket.request_type === 'change_request' && customerRepliedIds.has(ticket.id);
+    case 'request_item_replied': return ticket.request_type === 'request_item' && customerRepliedIds.has(ticket.id);
     case 'open': return ticket.status === 'open' || ticket.status === 'in_progress';
     case 'resolved': return ticket.status === 'resolved' || ticket.status === 'closed';
     case 'recent': return new Date(ticket.updated_at).getTime() >= recentCutoff;
