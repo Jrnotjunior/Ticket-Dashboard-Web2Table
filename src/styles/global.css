@@ -108,7 +108,7 @@ body, button, input, select { font-size: 16px; }
 .table-filters select, .status-editor select { font-size: 14px; }
 th { font-size: 12px; letter-spacing: .6px; }
 td { font-size: 14px; }
-.ticket-number { font-size: 13px; }
+.ticket-number { font-size: 13px; } .ticket-number-link { display:block; padding:0; border:0; background:transparent; font:inherit; font-weight:700; text-align:left; cursor:pointer; text-decoration:none; } .ticket-number-link:hover, .ticket-number-link:focus-visible { text-decoration:underline; outline:2px solid #ED1C24; outline-offset:3px; }
 .subject-cell, .sub-cell { font-size: 12px; }
 .ticket-row td:nth-child(2) > strong { font-size: 14px; }
 .type-badge, .status-badge, .impact { font-size: 12px; }
