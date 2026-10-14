@@ -50,11 +50,6 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
     return () => { void requireSupabase().removeChannel(channel); };
   }, [ticket.id, load]);
 
-  useEffect(() => {
-    const list = conversationListRef.current;
-    if (list) list.scrollTop = 0;
-  }, [messages, loading]);
-
   async function loadOlderMessages() {
     if (loadingOlder || !hasOlderMessages) return;
     setLoadingOlder(true);
