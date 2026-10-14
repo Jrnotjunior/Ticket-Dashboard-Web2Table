@@ -216,3 +216,13 @@ td { font-size: 14px; }
 .ticket-number-link:focus,
 .ticket-number-link:focus-visible,
 .ticket-number-link:active{outline:none!important;outline-offset:0!important;box-shadow:none!important;border:0!important}
+
+/* Compact action labels: fit the text to the existing small button dimensions. */
+.status-editor-inline .button-compact,
+.conversation-composer .button-compact{
+  font-size:10px!important;
+  line-height:1.2!important;
+  font-weight:600!important;
+  letter-spacing:0!important;
+  padding:7px 12px!important;
+}
