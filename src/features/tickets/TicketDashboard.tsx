@@ -39,12 +39,12 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
     case 'incident_in_progress': return ticket.request_type === 'incident' && ticket.status === 'in_progress';
     case 'change_in_progress': return ticket.request_type === 'change_request' && ticket.status === 'in_progress';
     case 'request_item_in_progress': return ticket.request_type === 'request_item' && ticket.status === 'in_progress';
-    case 'p1': return ticket.impact === 'critical';
-    case 'p2': return ticket.impact === 'high';
+    case 'p1': return isActive && ticket.impact === 'critical';
+    case 'p2': return isActive && ticket.impact === 'high';
     case 'high_in_progress': return ticket.status === 'in_progress' && (ticket.impact === 'high' || ticket.impact === 'critical');
-    case 'incident_replied': return ticket.request_type === 'incident' && customerRepliedIds.has(ticket.id);
-    case 'change_replied': return ticket.request_type === 'change_request' && customerRepliedIds.has(ticket.id);
-    case 'request_item_replied': return ticket.request_type === 'request_item' && customerRepliedIds.has(ticket.id);
+    case 'incident_replied': return isActive && ticket.request_type === 'incident' && customerRepliedIds.has(ticket.id);
+    case 'change_replied': return isActive && ticket.request_type === 'change_request' && customerRepliedIds.has(ticket.id);
+    case 'request_item_replied': return isActive && ticket.request_type === 'request_item' && customerRepliedIds.has(ticket.id);
     case 'resolved': return ticket.status === 'resolved' || ticket.status === 'closed';
     default: return true;
   }
