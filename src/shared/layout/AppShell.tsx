@@ -28,8 +28,8 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
           <div className="topbar-actions">
             <div className="live-label"><span className="live-dot" /> Live updates</div>
             <span className="topbar-user" title={userEmail}>{userEmail}</span>
-            <button className="button button-secondary topbar-logout" onClick={onSignOut}>
-              <span aria-hidden="true">↗</span> Log out
+            <button className="icon-button signout topbar-logout" onClick={onSignOut} aria-label="Log out" title="Log out">
+              ↗
             </button>
           </div>
         </header>
