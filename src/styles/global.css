@@ -210,3 +210,9 @@ td { font-size: 14px; }
 /* Slightly reduce action-button text size for a cleaner, more balanced UI. */
 .status-editor-inline .button-compact,
 .conversation-composer button{font-size:12px}
+
+/* Prevent the ticket number link from showing a red rectangular ring on hover or focus. */
+.ticket-number-link:hover,
+.ticket-number-link:focus,
+.ticket-number-link:focus-visible,
+.ticket-number-link:active{outline:none!important;outline-offset:0!important;box-shadow:none!important;border:0!important}
