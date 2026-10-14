@@ -51,7 +51,6 @@ export function TicketOverview({ tickets, customerRepliedIds }: Props) {
     { id: 'incident_replied', label: 'Incident Updated by Customer', hint: 'Incidents with a new customer reply', count: tickets.filter(t => t.request_type === 'incident' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
     { id: 'change_replied', label: 'Change Updated by Customer', hint: 'Change requests with a new customer reply', count: tickets.filter(t => t.request_type === 'change_request' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
     { id: 'request_item_replied', label: 'RTM Updated by Customer', hint: 'Request items with a new customer reply', count: tickets.filter(t => t.request_type === 'request_item' && customerRepliedIds.has(t.id)).length, icon: '☏', tone: 'critical' },
-    { id: 'open', label: 'Open Tickets', hint: 'Open or in progress', count: tickets.filter(isOpen).length, icon: '○' },
     { id: 'resolved', label: 'Resolved / Closed', hint: 'Completed requests', count: tickets.filter(t => t.status === 'resolved' || t.status === 'closed').length, icon: '✓' },
   ];
 
