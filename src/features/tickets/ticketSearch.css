@@ -1,10 +1,12 @@
 .ticket-dashboard-heading-row{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:18px}
 .ticket-dashboard-heading-row .page-heading{margin:0;min-width:0}
-.ticket-global-search{display:flex;align-items:center;gap:9px;width:min(100%,330px);height:40px;flex:0 1 330px;padding:0 12px;border:1px solid #414141;border-radius:8px;background:#080808;color:#ddd}
+.ticket-global-search{display:flex;align-items:center;gap:9px;width:min(100%,330px);height:40px;flex:0 1 330px;padding:0 12px;border:1px solid #414141;border-radius:8px;background:#080808;color:#ddd;box-shadow:none!important;filter:none!important}
+.ticket-global-search:focus-within{outline:none!important;box-shadow:none!important;filter:none!important;border-color:#414141}
 .ticket-global-search>span{font-size:19px;line-height:1;color:#eee}
-.ticket-global-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#fff;font:inherit;font-size:12px}
+.ticket-global-search input{width:100%;min-width:0;border:0;outline:0!important;box-shadow:none!important;filter:none!important;background:transparent;color:#fff;font:inherit;font-size:12px}
+.ticket-global-search input:focus,.ticket-global-search input:focus-visible{outline:none!important;box-shadow:none!important;filter:none!important}
 .ticket-global-search input::placeholder{color:#929292}
-.ticket-global-search button{border:0;background:transparent;color:#ddd;font-size:20px;cursor:pointer}
+.ticket-global-search button{border:0;background:transparent;color:#ddd;font-size:20px;cursor:pointer;box-shadow:none}
 .ticket-search-results{margin:0 0 20px;border:1px solid #333;border-radius:9px;overflow:hidden;background:#050505}
 .ticket-search-results-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-size:12px}
 .ticket-search-results-heading span{color:#aaa}
