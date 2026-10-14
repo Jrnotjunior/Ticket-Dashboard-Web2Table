@@ -10,7 +10,6 @@ type Props = {
   tickets: SupportTicket[];
   loading: boolean;
   error: string;
-  onSelect: (ticket: SupportTicket) => void;
 };
 
 const filterLabels: Record<TicketOverviewFilter, string> = {
@@ -51,7 +50,7 @@ function getRequestedFilter(): TicketOverviewFilter | null {
   return value && value in filterLabels ? value as TicketOverviewFilter : null;
 }
 
-export function TicketDashboard({ tickets, loading, error, onSelect }: Props) {
+export function TicketDashboard({ tickets, loading, error }: Props) {
   const [customerRepliedIds, setCustomerRepliedIds] = useState<Set<string>>(new Set());
   const [activeFilter, setActiveFilter] = useState<TicketOverviewFilter | null>(() => getRequestedFilter());
   const [search, setSearch] = useState('');
