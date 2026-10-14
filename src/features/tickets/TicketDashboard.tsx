@@ -102,7 +102,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             filteredTickets.length === 0 ? <p className="filtered-ticket-message">No tickets match this category.</p> : (
               <div className="filtered-ticket-list">
                 {filteredTickets.map(ticket => (
-                  <a className="filtered-ticket-row" href={`?ticket=${encodeURIComponent(ticket.id)}`} key={ticket.id}>
+                  <a className="filtered-ticket-row" href={`?filter=${encodeURIComponent(activeFilter)}&ticket=${encodeURIComponent(ticket.id)}`} key={ticket.id}>
                     <span className="filtered-ticket-main">
                       <strong>{ticket.request_number ?? 'Support request'}</strong>
                       <span>{ticket.subject}</span>
