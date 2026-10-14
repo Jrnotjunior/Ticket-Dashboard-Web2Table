@@ -9,14 +9,18 @@ export type SupportMessage = {
   created_at: string;
 };
 
-export async function listTicketMessages(ticketId: string): Promise<SupportMessage[]> {
+export const TICKET_MESSAGE_PAGE_SIZE = 50;
+
+export async function listTicketMessages(ticketId: string, offset = 0): Promise<SupportMessage[]> {
   const { data, error } = await requireSupabase()
     .from('support_ticket_messages')
     .select('id,ticket_id,sender_user_id,message,visibility,created_at')
     .eq('ticket_id', ticketId)
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: false })
+    .order('id', { ascending: false })
+    .range(offset, offset + TICKET_MESSAGE_PAGE_SIZE - 1);
   if (error) throw error;
-  return (data ?? []) as SupportMessage[];
+  return ((data ?? []) as SupportMessage[]);
 }
 
 export async function sendTicketMessage(ticketId: string, message: string, visibility: SupportMessage['visibility']): Promise<string> {
