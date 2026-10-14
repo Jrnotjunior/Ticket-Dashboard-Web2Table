@@ -89,7 +89,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
     <section className="tickets-page">
       {activeFilter ? (
         <section className="filtered-ticket-view">
-          <a className="filtered-ticket-back" href="./">← Back to Ticket Overview</a>
+          <a className="filtered-ticket-close" href="./" aria-label="Close ticket category and return to overview" title="Close">×</a>
           <div className="page-heading">
             <div>
               <p className="eyebrow">CUSTOMER OPERATIONS</p>
