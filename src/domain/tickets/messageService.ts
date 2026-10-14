@@ -19,18 +19,19 @@ export async function listTicketMessages(ticketId: string): Promise<SupportMessa
   return (data ?? []) as SupportMessage[];
 }
 
-export async function sendTicketMessage(ticketId: string, message: string, visibility: SupportMessage['visibility']): Promise<void> {
+export async function sendTicketMessage(ticketId: string, message: string, visibility: SupportMessage['visibility']): Promise<string> {
   const client = requireSupabase();
   const { data: { user }, error: authError } = await client.auth.getUser();
   if (authError) throw authError;
   if (!user) throw new Error('Your session has expired. Please sign in again.');
-  const { error } = await client.from('support_ticket_messages').insert({
+  const { data, error } = await client.from('support_ticket_messages').insert({
     ticket_id: ticketId,
     sender_user_id: user.id,
     message: message.trim(),
     visibility,
-  });
+  }).select('id').single();
   if (error) throw error;
+  return data.id as string;
 }
 
 export function subscribeToTicketMessages(ticketId: string, onChange: () => void) {
