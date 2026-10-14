@@ -54,6 +54,13 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
 
   return <section className="ticket-conversation">
     <div className="conversation-heading"><div><h4>Conversation</h4><p>Replies are shared with the restaurant. Internal notes are only visible to support administrators.</p></div></div>
+    {canReply && <form className="conversation-composer" onSubmit={(e) => void submit(e)}>
+      {canWriteInternal && <label>Message visibility<select value={visibility} onChange={(e) => setVisibility(e.target.value as SupportMessage['visibility'])}><option value="public">Public reply — visible to restaurant</option><option value="internal">Internal note — support only</option></select></label>}
+      <label htmlFor="ticket-reply">Write a {visibility === 'internal' ? 'private note' : 'reply'}</label>
+      <textarea id="ticket-reply" value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={10000} rows={4} placeholder={visibility === 'internal' ? 'Add an internal note…' : 'Write a response to the restaurant…'} required />
+      {error && <div className="alert alert-error">{error}</div>}
+      <button className="button button-primary button-compact" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
+    </form>}
     <div ref={conversationListRef} className="conversation-list" aria-live="polite">
       {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : [...messages].reverse().map((item) => {
         const fromRequester = item.sender_user_id === ticket.requester_user_id;
@@ -63,13 +70,6 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
         </article>;
       })}
     </div>
-    {canReply && <form className="conversation-composer" onSubmit={(e) => void submit(e)}>
-      {canWriteInternal && <label>Message visibility<select value={visibility} onChange={(e) => setVisibility(e.target.value as SupportMessage['visibility'])}><option value="public">Public reply — visible to restaurant</option><option value="internal">Internal note — support only</option></select></label>}
-      <label htmlFor="ticket-reply">Write a {visibility === 'internal' ? 'private note' : 'reply'}</label>
-      <textarea id="ticket-reply" value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={10000} rows={4} placeholder={visibility === 'internal' ? 'Add an internal note…' : 'Write a response to the restaurant…'} required />
-      {error && <div className="alert alert-error">{error}</div>}
-      <button className="button button-primary button-compact" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
-    </form>}
     {!canReply && <p className="view-only-note">This account has read-only access.</p>}
   </section>;
 }
