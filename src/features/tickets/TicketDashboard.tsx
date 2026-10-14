@@ -31,7 +31,6 @@ const filterLabels: Record<TicketOverviewFilter, string> = {
 };
 
 function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, customerRepliedIds: ReadonlySet<string>) {
-  const recentCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
   switch (filter) {
     case 'incident': return ticket.request_type === 'incident';
     case 'change_request': return ticket.request_type === 'change_request';
