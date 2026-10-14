@@ -158,3 +158,13 @@ td { font-size: 14px; }
 .status-editor-inline select{width:min(100%,280px);max-width:280px}
 .conversation-composer label select{width:min(100%,360px);max-width:360px}
 @media(max-width:700px){.status-editor-inline select,.conversation-composer label select{width:100%;max-width:100%}}
+
+/* Compact three-column ticket summary: restaurant, requester, and status. */
+.detail-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(280px,1.1fr);align-items:start;gap:16px;padding:16px;margin:18px 0}
+.detail-status-field{gap:5px!important}
+.status-editor-inline{gap:6px;margin-top:2px}
+.status-editor-controls{display:flex;align-items:center;gap:8px;min-width:0}
+.status-editor-inline select{width:100%;max-width:220px;min-width:0;height:35px}
+.status-editor-inline .button-compact{min-width:105px;min-height:35px;padding:7px 12px;white-space:nowrap}
+@media(max-width:900px){.detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-status-field{grid-column:auto}}
+@media(max-width:600px){.detail-grid{grid-template-columns:minmax(0,1fr)}.status-editor-controls{align-items:stretch;flex-wrap:wrap}.status-editor-inline select{max-width:100%;flex:1 1 160px}}
