@@ -27,11 +27,9 @@ type OverviewItem = {
 type Props = {
   tickets: SupportTicket[];
   customerRepliedIds: ReadonlySet<string>;
-  activeFilter: TicketOverviewFilter;
-  onFilterChange: (filter: TicketOverviewFilter) => void;
 };
 
-export function TicketOverview({ tickets, customerRepliedIds, activeFilter, onFilterChange }: Props) {
+export function TicketOverview({ tickets, customerRepliedIds }: Props) {
   const recentCutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const isOpen = (ticket: SupportTicket) => ticket.status === 'open' || ticket.status === 'in_progress';
   const isHighPriority = (ticket: SupportTicket) => ticket.impact === 'high' || ticket.impact === 'critical';
@@ -65,8 +63,7 @@ export function TicketOverview({ tickets, customerRepliedIds, activeFilter, onFi
           <a
             key={item.id}
             href={`?filter=${item.id}`}
-            className={`ticket-overview-card${item.tone ? ` is-${item.tone}` : ''}${activeFilter === item.id ? ' is-active' : ''}`}
-            aria-current={activeFilter === item.id ? 'page' : undefined}
+            className={`ticket-overview-card${item.tone ? ` is-${item.tone}` : ''}`}
           >
             <span className="ticket-overview-card-top">
               <span className="ticket-overview-icon" aria-hidden="true">{item.icon}</span>
