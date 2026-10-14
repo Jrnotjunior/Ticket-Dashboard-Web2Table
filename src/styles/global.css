@@ -241,3 +241,7 @@ td { font-size: 14px; }
   font-weight:600!important;
   flex:0 0 auto!important;
 }
+
+/* Vertically center Save status beside the status dropdown. */
+.status-editor-controls{display:flex;align-items:center;gap:8px}
+.status-editor-controls .button-compact{align-self:center!important;margin:0!important}
