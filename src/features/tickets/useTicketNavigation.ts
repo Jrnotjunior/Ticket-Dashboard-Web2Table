@@ -17,9 +17,21 @@ export function useTicketNavigation(
   }, [tickets, setSelectedTicket]);
 
   const closeTicket = useCallback(() => {
-    setSelectedTicket(null);
     const url = new URL(window.location.href);
+    const returnTo = url.searchParams.get('returnTo');
+    setSelectedTicket(null);
+
+    // Ticket links record their originating list/search URL so closing returns
+    // to exactly that view, including its category and search query.
+    if (returnTo && returnTo.startsWith('/') && !returnTo.startsWith('//')) {
+      window.location.assign(returnTo);
+      return;
+    }
+
+    // Directly opened ticket URLs have no originating page; remove ticket
+    // parameters and keep any category/search context present in the URL.
     url.searchParams.delete('ticket');
+    url.searchParams.delete('returnTo');
     window.history.replaceState({}, '', url.pathname + url.search + url.hash);
   }, [setSelectedTicket]);
 
