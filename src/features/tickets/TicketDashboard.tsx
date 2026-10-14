@@ -60,12 +60,7 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
     };
   }, [tickets]);
 
-  const counts = useMemo(() => ({
-    all: tickets.length,
-    open: tickets.filter(ticket => ticket.status === 'open' || ticket.status === 'in_progress').length,
-    critical: tickets.filter(ticket => ticket.impact === 'critical' || ticket.impact === 'high').length,
-    resolved: tickets.filter(ticket => ticket.status === 'resolved' || ticket.status === 'closed').length,
-  }), [tickets]);
+  const totalTickets = tickets.length;
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -83,7 +78,7 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
       <div className="page-heading">
         <div>
           <p className="eyebrow">CUSTOMER OPERATIONS</p>
-          <h1>Support tickets <span className="heading-count">{counts.all}</span></h1>
+          <h1>Support tickets <span className="heading-count">{totalTickets}</span></h1>
           <p className="muted">Review, prioritize, and resolve requests from your restaurant customers.</p>
         </div>
         <button className="button button-secondary" onClick={onRefresh}>↻ <span>Refresh</span></button>
@@ -96,12 +91,6 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
         onFilterChange={setOverviewFilter}
       />
 
-      <div className="stats-grid">
-        <Stat label="Total tickets" value={counts.all} icon="▤" tone="blue" />
-        <Stat label="Needs attention" value={counts.open} icon="◷" tone="amber" />
-        <Stat label="High impact" value={counts.critical} icon="⚑" tone="red" />
-        <Stat label="Resolved / closed" value={counts.resolved} icon="✓" tone="green" />
-      </div>
 
       <div className="table-card">
         <div className="table-toolbar">
@@ -162,6 +151,3 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
   );
 }
 
-function Stat({ label, value, icon, tone }: { label: string; value: number; icon: string; tone: string }) {
-  return <div className="stat-card"><span className={'stat-icon ' + tone}>{icon}</span><div><span className="stat-label">{label}</span><strong className="stat-value">{value}</strong></div></div>;
-}
