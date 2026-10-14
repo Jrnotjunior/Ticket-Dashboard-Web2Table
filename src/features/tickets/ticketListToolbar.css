@@ -1,0 +1,5 @@
+.ticket-list-toolbar{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin:0 0 12px;padding:0}
+.ticket-list-toolbar .search-box{height:36px;min-width:240px;max-width:360px;flex:1}
+.ticket-list-toolbar .search-box input{width:100%}
+.ticket-list-toolbar .table-filters{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+@media(max-width:760px){.ticket-list-toolbar{align-items:stretch;flex-direction:column;gap:9px}.ticket-list-toolbar .search-box{max-width:none;width:100%;flex:none}.ticket-list-toolbar .table-filters{justify-content:stretch}.ticket-list-toolbar .table-filters select{flex:1;min-width:0}.ticket-list-toolbar .table-filters .button{white-space:nowrap}}
