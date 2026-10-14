@@ -94,6 +94,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
   const filteredTickets = activeFilter
     ? tickets.filter(ticket => matchesFilter(ticket, activeFilter, customerRepliedIds))
     : [];
+  const returnTo = window.location.pathname + window.location.search + window.location.hash;
   const normalizedSearch = search.trim().toLowerCase();
   const searchResults = normalizedSearch ? tickets.filter(ticket => [ticket.request_number, ticket.subject, ticket.description, ticket.restaurant?.name, ticket.requester_email, ticket.request_type, ticket.status, ticket.impact, ticketTypeLabels[ticket.request_type], statusLabels[ticket.status], impactLabels[ticket.impact]].some(value => value?.toLowerCase().includes(normalizedSearch))) : [];
 
@@ -114,7 +115,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             filteredTickets.length === 0 ? <p className="filtered-ticket-message">No tickets match this category.</p> : (
               <div className="filtered-ticket-list">
                 {filteredTickets.map(ticket => (
-                  <a className="filtered-ticket-row" href={`?filter=${encodeURIComponent(activeFilter)}&ticket=${encodeURIComponent(ticket.id)}`} key={ticket.id}>
+                  <a className="filtered-ticket-row" href={`?filter=${encodeURIComponent(activeFilter)}&ticket=${encodeURIComponent(ticket.id)}&returnTo=${encodeURIComponent(returnTo)}`} key={ticket.id}>
                     <span className="filtered-ticket-main">
                       <strong>{ticket.request_number ?? 'Support request'}</strong>
                       <span>{ticket.subject}</span>
@@ -151,7 +152,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             <section className="ticket-search-results" aria-live="polite">
               <div className="ticket-search-results-heading"><strong>Search results</strong><span>{searchResults.length} {searchResults.length === 1 ? 'ticket' : 'tickets'}</span></div>
               {searchResults.length ? <div className="filtered-ticket-list">
-                {searchResults.map(ticket => <a className="filtered-ticket-row" href={"?search=" + encodeURIComponent(search) + "&ticket=" + encodeURIComponent(ticket.id)} key={ticket.id}>
+                {searchResults.map(ticket => <a className="filtered-ticket-row" href={"?search=" + encodeURIComponent(search) + "&ticket=" + encodeURIComponent(ticket.id) + "&returnTo=" + encodeURIComponent(returnTo)} key={ticket.id}>
                   <span className="filtered-ticket-main"><strong>{ticket.request_number ?? 'Support request'}</strong><span>{ticket.subject}</span><small>{ticket.restaurant?.name ?? 'Restaurant'} · {ticket.requester_email ?? 'No requester email'}</small></span>
                   <span className="filtered-ticket-badges"><span className={'type-badge type-' + ticket.request_type}>{ticketTypeLabels[ticket.request_type]}</span><span className={'impact impact-' + ticket.impact}>{impactLabels[ticket.impact]}</span><span className={'status-badge status-' + ticket.status}>{statusLabels[ticket.status]}</span></span>
                   <span className="filtered-ticket-arrow" aria-hidden="true">›</span>
