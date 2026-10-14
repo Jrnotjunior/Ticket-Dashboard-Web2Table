@@ -206,3 +206,7 @@ td { font-size: 14px; }
 
 /* Remove the oversized red focus box around ticket numbers; keep a subtle underline cue. */
 .ticket-number-link:focus-visible{outline:none;outline-offset:0;box-shadow:none;text-decoration:underline}
+
+/* Slightly reduce action-button text size for a cleaner, more balanced UI. */
+.status-editor-inline .button-compact,
+.conversation-composer button{font-size:12px}
