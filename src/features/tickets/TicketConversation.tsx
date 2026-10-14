@@ -68,7 +68,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
       <label htmlFor="ticket-reply">Write a {visibility === 'internal' ? 'private note' : 'reply'}</label>
       <textarea id="ticket-reply" value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={10000} rows={4} placeholder={visibility === 'internal' ? 'Add an internal note…' : 'Write a response to the restaurant…'} required />
       {error && <div className="alert alert-error">{error}</div>}
-      <button className="button button-primary button-wide" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
+      <button className="button button-primary button-compact" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
     </form>}
     {!canReply && <p className="view-only-note">This account has read-only access.</p>}
   </section>;
