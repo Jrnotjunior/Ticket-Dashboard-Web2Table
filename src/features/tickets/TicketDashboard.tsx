@@ -93,7 +93,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
           <div className="page-heading">
             <div>
               <p className="eyebrow">CUSTOMER OPERATIONS</p>
-              <h1>{filterLabels[activeFilter]} <span className="heading-count">{filteredTickets.length}</span></h1>
+              <h1>{filterLabels[activeFilter]}</h1>
               <p className="muted">Tickets matching this category. Select a ticket to view its details.</p>
             </div>
           </div>
