@@ -15,7 +15,6 @@ export type TicketOverviewFilter =
   | 'incident_replied'
   | 'change_replied'
   | 'request_item_replied'
-  | 'open'
   | 'resolved'
   ;
 
