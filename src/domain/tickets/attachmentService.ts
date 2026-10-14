@@ -58,8 +58,11 @@ export async function uploadSupportAttachments(
       if (metadataError) throw metadataError;
     }
   } catch (error) {
-    // Best-effort rollback for files that were uploaded but could not be registered.
-    if (uploadedPaths.length) await client.storage.from('support-attachments').remove(uploadedPaths);
+    // Roll back metadata and objects so failed multi-file uploads do not leave orphaned rows.
+    if (uploadedPaths.length) {
+      await client.from('support_ticket_attachments').delete().in('storage_path', uploadedPaths);
+      await client.storage.from('support-attachments').remove(uploadedPaths);
+    }
     throw error;
   }
 }
