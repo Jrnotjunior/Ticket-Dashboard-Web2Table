@@ -4,6 +4,7 @@ import { impactLabels, statusLabels, ticketTypeLabels } from '../../domain/ticke
 import { listCustomerRepliedTicketIds, subscribeToCustomerReplies } from '../../domain/tickets/customerReplyService';
 import { requireSupabase } from '../../lib/supabase';
 import { TicketOverview, type TicketOverviewFilter } from './overview/TicketOverview';
+import './ticketListToolbar.css';
 
 type Props = {
   tickets: SupportTicket[];
@@ -92,17 +93,12 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
       />
 
 
-      <div className="table-card">
-        <div className="table-toolbar">
-          <div>
-            <h2>{overviewFilter === 'all' ? 'All requests' : 'Filtered requests'}</h2>
-            <p>{filtered.length} {filtered.length === 1 ? 'ticket' : 'tickets'} shown</p>
-          </div>
+      <div className="ticket-list-toolbar">
+          <label className="search-box">
+            <span>⌕</span>
+            <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search tickets…" aria-label="Search tickets" />
+          </label>
           <div className="table-filters">
-            <label className="search-box">
-              <span>⌕</span>
-              <input value={search} onChange={event => setSearch(event.target.value)} placeholder="Search tickets…" aria-label="Search tickets" />
-            </label>
             <select aria-label="Filter by status" value={status} onChange={event => setStatus(event.target.value as typeof status)}>
               <option value="all">All statuses</option>
               {Object.entries(statusLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
@@ -117,8 +113,9 @@ export function TicketDashboard({ tickets, loading, error, onRefresh, onSelect }
               </button>
             )}
           </div>
-        </div>
+      </div>
 
+      <div className="table-card">
         {error && <div className="alert alert-error table-alert">{error}<button className="button button-secondary" onClick={onRefresh}>Try again</button></div>}
         {replyLoadError && <p className="table-alert muted">{replyLoadError}</p>}
 
