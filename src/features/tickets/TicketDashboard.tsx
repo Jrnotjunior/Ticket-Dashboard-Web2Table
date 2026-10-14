@@ -125,7 +125,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
             <div className="page-heading">
               <div>
                 <p className="eyebrow">CUSTOMER OPERATIONS</p>
-                <h1>Support tickets <span className="heading-count">{tickets.length}</span></h1>
+                <h1>Support tickets</h1>
                 <p className="muted">Review, prioritize, and resolve requests from your restaurant customers.</p>
               </div>
             </div>
