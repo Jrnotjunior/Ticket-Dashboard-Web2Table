@@ -366,3 +366,7 @@ td { font-size: 14px; }
 .login-form .password-visibility-toggle{position:absolute;right:5px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:36px;height:36px;padding:7px;background:transparent;color:#111;border:0;border-radius:7px;box-shadow:none;cursor:pointer;}
 .login-form .password-visibility-toggle:hover{background:rgba(0,0,0,.08);}
 .login-form .password-visibility-toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+/* Keep the password centered when revealed as text, with balanced space around the eye icon. */
+.login-screen .login-form .password-input-wrap input[type="password"],
+.login-screen .login-form .password-input-wrap input[type="text"]{text-align:center!important;padding-left:48px!important;padding-right:48px!important;}
