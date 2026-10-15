@@ -245,3 +245,9 @@ td { font-size: 14px; }
 /* Vertically center Save status beside the status dropdown. */
 .status-editor-controls{display:flex;align-items:center;gap:8px}
 .status-editor-controls .button-compact{align-self:center!important;margin:0!important}
+
+
+/* Visible, consistent attachment picker for public replies and private support notes. */
+.conversation-composer .conversation-file-input{display:block;box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px dashed rgba(255,255,255,.38);border-radius:8px;background:#111;color:#eee;font:inherit;font-size:12px;cursor:pointer}
+.conversation-composer .conversation-file-input::file-selector-button{margin-right:12px;padding:7px 12px;border:0;border-radius:6px;background:#292929;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.conversation-file-help{color:#aaa;font-size:10px;font-weight:400;line-height:1.5}
