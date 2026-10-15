@@ -354,3 +354,8 @@ td { font-size: 14px; }
 .login-screen .login-submit-button,.login-screen .login-form button.button-primary{background:#ED1C24!important;color:#fff!important;border:0!important;border-radius:8px!important;box-shadow:none!important}
 .login-screen .login-submit-button:hover,.login-screen .login-form button.button-primary:hover{background:#c9161d!important}
 .login-screen .login-footnote{color:#d0d0d0!important}
+
+/* Center sign-in labels and typed email/password text. */
+.login-screen .login-form label{text-align:center!important}
+.login-screen .login-form input[type="email"],
+.login-screen .login-form input[type="password"]{text-align:center!important}
