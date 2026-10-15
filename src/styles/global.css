@@ -546,3 +546,19 @@ td { font-size: 14px; }
   .login-screen .login-card{padding-top:30px!important;padding-bottom:26px!important}
   .login-screen .login-brand-image{margin-bottom:20px!important}
 }
+
+
+/* Exact desktop modal height to match the System Admin login reference (588px). */
+.login-screen .login-card{
+  height:588px!important;
+  min-height:588px!important;
+  max-height:588px!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:480px){
+  .login-screen .login-card{
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+  }
+}
