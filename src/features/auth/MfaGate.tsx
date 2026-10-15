@@ -18,6 +18,15 @@ export function MfaGate({children}:GateProps){
   setState({kind:'enroll',factorId:enrollment.id,qrCode:enrollment.totp.qr_code,secret:enrollment.totp.secret});
  }
  useEffect(()=>{void inspect().catch(e=>setState({kind:'error',message:e instanceof Error?e.message:'Security verification failed.'}));},[]);
+ useEffect(()=>{
+  if(state.kind!=='challenge'&&state.kind!=='enroll')return;
+  let expired=false;
+  const timeout=window.setTimeout(async()=>{
+   expired=true;
+   try{await requireSupabase().auth.signOut();}finally{window.location.reload();}
+  },60_000);
+  return()=>{window.clearTimeout(timeout);void expired;};
+ },[state.kind]);
  async function verify(e:FormEvent){
   e.preventDefault();if(state.kind!=='challenge'&&state.kind!=='enroll')return;
   setBusy(true);setMessage('');
