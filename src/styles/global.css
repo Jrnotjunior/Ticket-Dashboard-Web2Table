@@ -585,24 +585,24 @@ td { font-size:18px; }
   letter-spacing:.45px!important;
 }
 .login-screen .login-card.mfa-card h1{
-  margin:0 0 18px!important;
-  font-family:Inter,sans-serif!important;
-  font-size:36px!important;
+  margin:.35rem 0 12px!important;
+  font-family:Manrope,Inter,sans-serif!important;
+  font-size:28px!important;
   line-height:1.2!important;
   letter-spacing:0!important;
   text-align:center!important;
 }
 .login-screen .login-card.mfa-card .muted{
-  margin:0 0 24px!important;
+  margin:0 0 18px!important;
   color:#d0d0d0!important;
   text-align:center!important;
-  font-size:20px!important;
+  font-size:16px!important;
   line-height:1.5!important;
 }
 .login-screen .login-card.mfa-card .login-form{
   display:grid!important;
   grid-template-columns:minmax(0,1fr)!important;
-  gap:16px!important;
+  gap:12px!important;
   margin-top:0!important;
 }
 .login-screen .login-card.mfa-card .login-form label{
@@ -610,21 +610,21 @@ td { font-size:18px; }
   margin:0!important;
   color:#fff!important;
   text-align:center!important;
-  font-size:20px!important;
-  line-height:1.25!important;
-  font-weight:700!important;
+  font-size:16px!important;
+  line-height:1.4!important;
+  font-weight:600!important;
 }
 .login-screen .login-card.mfa-card .login-form input{
   width:100%!important;
-  height:45px!important;
-  min-height:45px!important;
+  height:43px!important;
+  min-height:43px!important;
   margin:0!important;
   padding:0 12px!important;
   border:1px solid #dce6f7!important;
   border-radius:8px!important;
   background:#e8f0fe!important;
   color:#111!important;
-  font-size:20px!important;
+  font-size:16px!important;
   text-align:center!important;
   letter-spacing:.18em!important;
 }
@@ -643,7 +643,7 @@ td { font-size:18px; }
   flex:none!important;
   background:#ED1C24!important;
   color:#fff!important;
-  font-size:18px!important;
+  font-size:16px!important;
   opacity:1!important;
 }
 .login-screen .login-card.mfa-card .login-form .button-wide:disabled{
@@ -652,9 +652,9 @@ td { font-size:18px; }
 }
 @media(max-width:480px){
   .login-screen .login-card.mfa-card{padding:30px 22px!important}
-  .login-screen .login-card.mfa-card h1{font-size:32px!important}
-  .login-screen .login-card.mfa-card .muted{font-size:18px!important}
-  .login-screen .login-card.mfa-card .login-form label{font-size:18px!important}
+  .login-screen .login-card.mfa-card h1{font-size:26px!important}
+  .login-screen .login-card.mfa-card .muted{font-size:15px!important}
+  .login-screen .login-card.mfa-card .login-form label{font-size:16px!important}
 }
 
 /* Match System Admin sign-in typography exactly. Keep logo and card layout unchanged. */
