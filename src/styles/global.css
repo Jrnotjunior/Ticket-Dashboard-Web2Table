@@ -657,19 +657,30 @@ td { font-size:18px; }
   .login-screen .login-card.mfa-card .login-form label{font-size:18px!important}
 }
 
-/* Keep the sign-in screen typography compact; the dashboard-wide readability pass
-   should not make the login heading, copy, labels, or button oversized. */
-.login-screen .login-platform-label{font-size:14px!important}
-.login-screen .login-card h1{font-size:32px!important}
-.login-screen .login-description{font-size:16px!important;line-height:1.45!important}
-.login-screen .login-form label{font-size:16px!important}
-.login-screen .login-form input{font-size:14px!important}
-.login-screen .login-form .login-submit-button{font-size:16px!important}
-@media(max-width:480px){
-  .login-screen .login-platform-label{font-size:13px!important}
-  .login-screen .login-card h1{font-size:29px!important}
-  .login-screen .login-description{font-size:14px!important;line-height:1.45!important}
-  .login-screen .login-form label{font-size:14px!important}
-  .login-screen .login-form input{font-size:13px!important}
-  .login-screen .login-form .login-submit-button{font-size:16px!important}
+/* Match System Admin sign-in typography exactly. Keep logo and card layout unchanged. */
+.login-screen .login-platform-label{
+  font-size:.78rem!important;
+  font-weight:800!important;
+  letter-spacing:.1em!important;
+  text-transform:uppercase!important;
+}
+.login-screen .login-card h1{
+  font-family:Manrope,Inter,sans-serif!important;
+  font-size:32px!important;
+  letter-spacing:normal!important;
+  line-height:normal!important;
+  margin:.35rem 0!important;
+}
+.login-screen .login-description{
+  font-size:16px!important;
+  line-height:1.5!important;
+}
+.login-screen .login-form label{
+  font-size:16px!important;
+  font-weight:600!important;
+}
+.login-screen .login-form input{font-size:16px!important}
+.login-screen .login-form .login-submit-button{
+  font-size:16px!important;
+  font-weight:700!important;
 }
