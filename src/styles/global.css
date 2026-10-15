@@ -359,3 +359,10 @@ td { font-size: 14px; }
 .login-screen .login-form label{text-align:center!important}
 .login-screen .login-form input[type="email"],
 .login-screen .login-form input[type="password"]{text-align:center!important}
+
+/* Password visibility toggle on the sign-in form. */
+.login-form .password-input-wrap{position:relative;display:block;width:100%;}
+.login-form .password-input-wrap input{width:100%;padding-right:48px!important;}
+.login-form .password-visibility-toggle{position:absolute;right:5px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:36px;height:36px;padding:7px;background:transparent;color:#111;border:0;border-radius:7px;box-shadow:none;cursor:pointer;}
+.login-form .password-visibility-toggle:hover{background:rgba(0,0,0,.08);}
+.login-form .password-visibility-toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
