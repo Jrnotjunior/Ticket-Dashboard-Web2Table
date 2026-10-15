@@ -821,3 +821,35 @@ td { font-size:18px; }
   .login-screen:not(:has(.mfa-card)) .login-description{font-size:16px!important;margin:14px 0 24px!important}
   .login-screen:not(:has(.mfa-card)) .login-form label{font-size:16px!important}
 }
+
+/* Exact logo styles copied from System Admin's effective .company-logo.auth-logo rules:
+   160x130px, contain, transparent background, no padding/filter/shadow, 20px bottom margin. */
+.login-screen:not(:has(.mfa-card)) .login-brand-image.company-logo{
+  display:block!important;
+  width:160px!important;
+  height:130px!important;
+  min-width:160px!important;
+  min-height:130px!important;
+  max-width:none!important;
+  max-height:none!important;
+  flex:0 0 130px!important;
+  object-fit:contain!important;
+  margin:0 auto 20px!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  filter:none!important;
+  mix-blend-mode:screen!important;
+}
+@media(max-width:480px){
+  .login-screen:not(:has(.mfa-card)) .login-brand-image.company-logo{
+    width:160px!important;
+    height:130px!important;
+    min-width:160px!important;
+    min-height:130px!important;
+    flex-basis:130px!important;
+    margin:0 auto 20px!important;
+  }
+}
