@@ -472,3 +472,41 @@ td { font-size: 14px; }
  .login-screen .login-description{font-size:14px}
  .login-screen .login-form label{font-size:14px}
 }
+
+
+/* Fine-match login typography and logo scale to the System Admin reference. */
+.login-screen .login-brand-image{
+  width:128px;
+  height:128px;
+  margin-bottom:25px;
+}
+.login-screen .login-platform-label{
+  font-family:Manrope,sans-serif;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.45px;
+}
+.login-screen .login-card h1{
+  font-family:Manrope,sans-serif;
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:-.9px;
+}
+.login-screen .login-description{
+  font-family:Inter,sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  margin-top:18px;
+  margin-bottom:24px;
+}
+.login-screen .login-form label{
+  font-family:Inter,sans-serif;
+  font-size:16px;
+  font-weight:700;
+}
+@media(max-width:480px){
+  .login-screen .login-brand-image{width:116px;height:116px;margin-bottom:24px}
+  .login-screen .login-card h1{font-size:29px}
+  .login-screen .login-description{font-size:14px}
+  .login-screen .login-form label{font-size:14px}
+}
