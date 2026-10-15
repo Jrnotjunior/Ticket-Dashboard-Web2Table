@@ -251,3 +251,12 @@ td { font-size: 14px; }
 .conversation-composer .conversation-file-input{display:block;box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px dashed rgba(255,255,255,.38);border-radius:8px;background:#111;color:#eee;font:inherit;font-size:12px;cursor:pointer}
 .conversation-composer .conversation-file-input::file-selector-button{margin-right:12px;padding:7px 12px;border:0;border-radius:6px;background:#292929;color:#fff;font:inherit;font-weight:700;cursor:pointer}
 .conversation-file-help{color:#aaa;font-size:10px;font-weight:400;line-height:1.5}
+
+
+/* Compact paperclip control for public replies and private notes. */
+.conversation-composer .conversation-attach-icon{position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;margin-top:2px;border:1px solid rgba(255,255,255,.28);border-radius:8px;background:#111;color:#eee;cursor:pointer;transition:background .15s,border-color .15s}
+.conversation-composer .conversation-attach-icon:hover{background:#202020;border-color:#ED1C24;color:#fff}
+.conversation-composer .conversation-attach-icon:focus-within{outline:2px solid #ED1C24;outline-offset:2px}
+.conversation-composer .conversation-attach-icon input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.conversation-attach-tooltip{position:absolute;left:44px;top:50%;transform:translateY(-50%);display:none;white-space:nowrap;padding:5px 8px;border-radius:6px;background:#222;color:#fff;font-size:10px;font-weight:600;z-index:5}
+.conversation-attach-icon:hover .conversation-attach-tooltip,.conversation-attach-icon:focus-within .conversation-attach-tooltip{display:block}
