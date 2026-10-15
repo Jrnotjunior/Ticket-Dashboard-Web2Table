@@ -296,3 +296,14 @@ td { font-size: 14px; }
   align-self:center!important;
   margin:0 auto!important;
 }
+
+/* Center the MFA code field label and the six-digit input text. */
+.login-screen .login-card .login-form label[for="mfa-code"]{
+  align-items:center!important;
+  text-align:center!important;
+}
+.login-screen .login-card .login-form label[for="mfa-code"] input{
+  width:100%;
+  text-align:center;
+  letter-spacing:.18em;
+}
