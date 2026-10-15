@@ -87,10 +87,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
       {canWriteInternal && <label>Message visibility<select value={visibility} onChange={(e) => setVisibility(e.target.value as SupportMessage['visibility'])}><option value="public">Public reply — visible to restaurant</option><option value="internal">Internal note — support only</option></select></label>}
       <label htmlFor="ticket-reply">Write a {visibility === 'internal' ? 'private note' : 'reply'}</label>
       <textarea id="ticket-reply" value={draft} onChange={(e) => setDraft(e.target.value)} maxLength={10000} rows={4} placeholder={visibility === 'internal' ? 'Add an internal note…' : 'Write a response to the restaurant…'} required />
-      <label className="conversation-attachment-field">Attach files (optional)
-        <input className="conversation-file-input" aria-label="Attach files to reply or internal note" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,application/pdf,text/plain" onChange={e => setFiles(Array.from(e.target.files ?? []))} disabled={sending} />
-        <small className="conversation-file-help">Images, PDF, or text files. Maximum 10 MB per file.</small>
-      </label>
+      <label className="conversation-attach-icon" title="Attach files (images, PDF, or text; up to 10 MB each)" aria-label="Attach files to reply or internal note"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m21.4 11.1-8.9 8.9a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg><span className="conversation-attach-tooltip">Attach files</span><input aria-label="Attach files to reply or internal note" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,application/pdf,text/plain" onChange={e => setFiles(Array.from(e.target.files ?? []))} disabled={sending} /></label>
       {files.length > 0 && <p className="conversation-attachment-selection">{files.map(file => file.name).join(', ')}</p>}
       {error && <div className="alert alert-error">{error}</div>}
       <button className="button button-primary button-compact" type="submit" disabled={sending || !draft.trim()}>{sending ? 'Sending…' : visibility === 'internal' ? 'Add internal note' : 'Send reply'}</button>
