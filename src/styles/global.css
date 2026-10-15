@@ -562,3 +562,97 @@ td { font-size: 14px; }
     max-height:none!important;
   }
 }
+
+
+/* MFA verification: compact content-height card matching System Admin. */
+.login-screen .login-card.mfa-card{
+  width:min(100%,420px)!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding:32px!important;
+  background:#000!important;
+  border:1px solid rgba(255,255,255,.2)!important;
+  border-radius:8px!important;
+  box-shadow:none!important;
+}
+.login-screen .login-card.mfa-card .eyebrow{
+  margin:0 0 10px!important;
+  color:#fff!important;
+  text-align:center!important;
+  font-size:12px!important;
+  line-height:1.3!important;
+  letter-spacing:.45px!important;
+}
+.login-screen .login-card.mfa-card h1{
+  margin:0 0 18px!important;
+  font-family:Inter,sans-serif!important;
+  font-size:32px!important;
+  line-height:1.2!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+}
+.login-screen .login-card.mfa-card .muted{
+  margin:0 0 24px!important;
+  color:#d0d0d0!important;
+  text-align:center!important;
+  font-size:16px!important;
+  line-height:1.5!important;
+}
+.login-screen .login-card.mfa-card .login-form{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:16px!important;
+  margin-top:0!important;
+}
+.login-screen .login-card.mfa-card .login-form label{
+  display:block!important;
+  margin:0!important;
+  color:#fff!important;
+  text-align:center!important;
+  font-size:16px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+}
+.login-screen .login-card.mfa-card .login-form input{
+  width:100%!important;
+  height:45px!important;
+  min-height:45px!important;
+  margin:0!important;
+  padding:0 12px!important;
+  border:1px solid #dce6f7!important;
+  border-radius:8px!important;
+  background:#e8f0fe!important;
+  color:#111!important;
+  font-size:16px!important;
+  text-align:center!important;
+  letter-spacing:.18em!important;
+}
+.login-screen .login-card.mfa-card .login-form .button-wide{
+  display:flex!important;
+  width:120px!important;
+  min-width:120px!important;
+  max-width:120px!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  margin:0 auto!important;
+  padding:10px 18px!important;
+  align-self:center!important;
+  justify-content:center!important;
+  flex:none!important;
+  background:#ED1C24!important;
+  color:#fff!important;
+  font-size:14px!important;
+  opacity:1!important;
+}
+.login-screen .login-card.mfa-card .login-form .button-wide:disabled{
+  opacity:.55!important;
+  cursor:not-allowed!important;
+}
+@media(max-width:480px){
+  .login-screen .login-card.mfa-card{padding:30px 22px!important}
+  .login-screen .login-card.mfa-card h1{font-size:28px!important}
+  .login-screen .login-card.mfa-card .muted{font-size:14px!important}
+  .login-screen .login-card.mfa-card .login-form label{font-size:14px!important}
+}
