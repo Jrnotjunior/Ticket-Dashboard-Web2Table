@@ -6,7 +6,7 @@ export function LoginPage({onSubmit,busy,error}:Props){
  const[showPassword,setShowPassword]=useState(false);
  const submit=(e:FormEvent)=>{e.preventDefault();onSubmit(email.trim(),password);};
  return <main className="login-screen"><section className="login-card">
-  <img className="login-brand-image" src="https://xaihajwrsvcdjisezmmc.supabase.co/storage/v1/object/public/web2table-assets/web2table.png" alt="Web2Table logo"/>
+  <img className="login-brand-image" src="https://xaihajwrsvcdjisezmmc.supabase.co/storage/v1/object/public/web2table-assets/web2table1.png" alt="Web2Table logo"/>
   <p className="eyebrow login-platform-label">WEB2TABLE PLATFORM</p>
   <h1>Ticket Dashboard</h1>
   <p className="muted login-description">Sign in to manage support tickets and customer requests.</p>
