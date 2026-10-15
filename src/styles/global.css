@@ -726,3 +726,98 @@ td { font-size:18px; }
   .login-screen:not(:has(.mfa-card)) .login-card h1{font-size:32px!important}
   .login-screen:not(:has(.mfa-card)) .login-description{font-size:16px!important}
 }
+
+/* Final sign-in match: mirror System Admin's compact typography and vertical rhythm. */
+.login-screen:not(:has(.mfa-card)) .login-card{
+  width:min(420px,100%)!important;
+  height:588px!important;
+  min-height:588px!important;
+  max-height:588px!important;
+  padding:39px 32px 32px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-brand-image{
+  width:110px!important;
+  height:110px!important;
+  flex:0 0 110px!important;
+  margin:0 auto 20px!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-platform-label{
+  margin:0 0 8px!important;
+  font-family:Manrope,Inter,sans-serif!important;
+  font-size:14px!important;
+  line-height:1.3!important;
+  letter-spacing:.1em!important;
+  font-weight:800!important;
+  text-align:center!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-card h1{
+  margin:0!important;
+  font-family:Manrope,Inter,sans-serif!important;
+  font-size:32px!important;
+  line-height:1.2!important;
+  font-weight:700!important;
+  letter-spacing:-.03em!important;
+  text-align:center!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-description{
+  margin:14px 0 24px!important;
+  font-family:Inter,sans-serif!important;
+  font-size:16px!important;
+  line-height:1.5!important;
+  font-weight:400!important;
+  text-align:center!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-form{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:16px!important;
+  margin-top:0!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-form label{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:7px!important;
+  margin:0!important;
+  font-family:Inter,sans-serif!important;
+  font-size:16px!important;
+  line-height:1.25!important;
+  font-weight:600!important;
+  text-align:center!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-form input{
+  height:45px!important;
+  min-height:45px!important;
+  width:100%!important;
+  font-family:Inter,sans-serif!important;
+  font-size:14px!important;
+  box-sizing:border-box!important;
+}
+.login-screen:not(:has(.mfa-card)) .login-form .login-submit-button{
+  width:180px!important;
+  min-width:180px!important;
+  max-width:180px!important;
+  height:44px!important;
+  min-height:44px!important;
+  margin:0 auto!important;
+  font-size:16px!important;
+  line-height:1.2!important;
+  font-weight:700!important;
+}
+@media(max-width:480px){
+  .login-screen:not(:has(.mfa-card)) .login-card{
+    width:min(420px,calc(100vw - 28px))!important;
+    height:auto!important;min-height:0!important;max-height:none!important;
+    padding:30px 22px 28px!important;
+  }
+  .login-screen:not(:has(.mfa-card)) .login-brand-image{
+    width:110px!important;height:110px!important;flex-basis:110px!important;margin-bottom:20px!important;
+  }
+  .login-screen:not(:has(.mfa-card)) .login-platform-label{font-size:14px!important}
+  .login-screen:not(:has(.mfa-card)) .login-card h1{font-size:32px!important}
+  .login-screen:not(:has(.mfa-card)) .login-description{font-size:16px!important;margin:14px 0 24px!important}
+  .login-screen:not(:has(.mfa-card)) .login-form label{font-size:16px!important}
+}
