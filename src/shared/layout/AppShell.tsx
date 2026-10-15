@@ -12,6 +12,7 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
     <div className="app-layout">
       <main className="main-area">
         <header className="topbar">
+          <div className="topbar-inner">
           <div className="topbar-leading">
             <a className="topbar-brand" href="./" aria-label="Web2Table Support Desk home">
               <img
@@ -27,6 +28,7 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
             <button className="icon-button signout topbar-logout" onClick={onSignOut} aria-label="Log out" title="Log out">
               ↗
             </button>
+          </div>
           </div>
         </header>
         <div className="page-content">{children}</div>
