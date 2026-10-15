@@ -80,6 +80,19 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
   }
 
   const visibleAttachments = (messageId: string) => attachments.filter(item => item.message_id === messageId);
+  // Build one chronological timeline: newest activity first, oldest at the bottom.
+  // Ticket-level attachments belong to the original ticket submission, so they use ticket.created_at.
+  const timeline = [
+    ...messages.map(message => ({ kind: 'message' as const, timestamp: message.created_at, message })),
+    ...(attachments.some(item => !item.message_id)
+      ? [{ kind: 'ticket-attachments' as const, timestamp: ticket.created_at }]
+      : []),
+  ].sort((a, b) => {
+    const timeDifference = new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    if (timeDifference !== 0) return timeDifference;
+    // On timestamp ties, keep ticket-origin attachments before later conversation entries.
+    return a.kind === 'ticket-attachments' ? 1 : b.kind === 'ticket-attachments' ? -1 : 0;
+  });
 
   return <section className="ticket-conversation">
     <div className="conversation-heading"><div><h4>Conversation</h4><p>Replies are shared with the restaurant. Internal notes are only visible to support administrators.</p></div></div>
@@ -94,7 +107,18 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
     </form>}
     <div ref={conversationListRef} className="conversation-list" aria-live="polite">
       {!loading && hasOlderMessages && <button className="button button-secondary button-compact" type="button" onClick={() => void loadOlderMessages()} disabled={loadingOlder}>{loadingOlder ? 'Loading older messages…' : 'Load older messages'}</button>}
-      {loading ? <p className="conversation-empty">Loading messages…</p> : messages.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : messages.map((item) => {
+      {loading ? <p className="conversation-empty">Loading messages…</p> : timeline.length === 0 ? <p className="conversation-empty">No messages yet. Send the first reply to start the conversation.</p> : timeline.map(event => {
+        if (event.kind === 'ticket-attachments') {
+          const ticketAttachments = attachments.filter(item => !item.message_id);
+          return <article key="ticket-origin-attachments" className="conversation-message from-requester">
+            <div className="conversation-message-meta"><strong>Ticket attachments</strong><time>{new Date(ticket.created_at).toLocaleString()}</time></div>
+            <ul className="conversation-attachments">{ticketAttachments.map(attachment => <li key={attachment.id}>
+              {attachmentUrls[attachment.id] ? <a href={attachmentUrls[attachment.id]} target="_blank" rel="noreferrer">{attachment.file_name}</a> : <span>{attachment.file_name} (unavailable)</span>}
+              <small>{(attachment.file_size / 1024 / 1024).toFixed(2)} MB</small>
+            </li>)}</ul>
+          </article>;
+        }
+        const item = event.message;
         const fromRequester = item.sender_user_id === ticket.requester_user_id;
         const messageAttachments = visibleAttachments(item.id);
         return <article key={item.id} className={'conversation-message ' + (item.visibility === 'internal' ? 'is-internal' : fromRequester ? 'from-requester' : 'from-support')}>
@@ -106,13 +130,6 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
           </li>)}</ul>}
         </article>;
       })}
-      {attachments.some(item => !item.message_id) && <article className="conversation-message from-requester">
-        <div className="conversation-message-meta"><strong>Ticket attachments</strong></div>
-        <ul className="conversation-attachments">{attachments.filter(item => !item.message_id).map(attachment => <li key={attachment.id}>
-          {attachmentUrls[attachment.id] ? <a href={attachmentUrls[attachment.id]} target="_blank" rel="noreferrer">{attachment.file_name}</a> : <span>{attachment.file_name} (unavailable)</span>}
-          <small>{(attachment.file_size / 1024 / 1024).toFixed(2)} MB</small>
-        </li>)}</ul>
-      </article>}
     </div>
     {!canReply && <p className="view-only-note">This account has read-only access.</p>}
   </section>;
