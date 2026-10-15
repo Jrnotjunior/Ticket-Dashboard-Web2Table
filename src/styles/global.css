@@ -531,3 +531,18 @@ td { font-size: 14px; }
   .login-screen .login-platform-label{font-size:13px!important}
   .login-screen .login-card h1{font-size:29px!important}
 }
+
+
+/* Match the System Admin login card's overall height without shrinking the typography. */
+.login-screen .login-card{
+  box-sizing:border-box!important;
+  padding-top:39px!important;
+  padding-bottom:32px!important;
+}
+.login-screen .login-brand-image{margin-bottom:20px!important}
+.login-screen .login-description{margin-bottom:20px!important}
+.login-screen .login-form{gap:15px!important}
+@media(max-width:480px){
+  .login-screen .login-card{padding-top:30px!important;padding-bottom:26px!important}
+  .login-screen .login-brand-image{margin-bottom:20px!important}
+}
