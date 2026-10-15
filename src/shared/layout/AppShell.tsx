@@ -20,6 +20,7 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
                 src="https://xaihajwrsvcdjisezmmc.supabase.co/storage/v1/object/public/web2table-assets/web2table%20(1).png"
                 alt="Web2Table Support Desk"
               />
+              <span className="topbar-brand-copy"><small>SUPPORT DESK</small></span>
             </a>
           </div>
           <div className="topbar-actions">
