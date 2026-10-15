@@ -341,3 +341,16 @@ td { font-size: 14px; }
 .login-screen .login-submit-button:hover,
 .login-screen .login-form button.button-primary:hover{background:#d9151d!important}
 .login-screen .login-footnote{color:#aaa!important}
+
+/* Restore the Ticket Dashboard's own flat black login palette. */
+.login-screen{background:#000!important}
+.login-screen .login-card{background:#000!important;border:1px solid rgba(255,255,255,.2)!important;border-radius:8px!important;box-shadow:none!important}
+.login-screen .login-card h1{color:#fff!important}
+.login-screen .login-card>.muted{color:#d0d0d0!important}
+.login-screen .login-card .eyebrow{color:#fff!important}
+.login-screen .login-form label{color:#fff!important}
+.login-screen .login-form input{background:#e8f0fe!important;color:#111!important;border:1px solid #dce6f7!important;border-radius:8px!important}
+.login-screen .login-form input::placeholder{color:#687386!important}
+.login-screen .login-submit-button,.login-screen .login-form button.button-primary{background:#ED1C24!important;color:#fff!important;border:0!important;border-radius:8px!important;box-shadow:none!important}
+.login-screen .login-submit-button:hover,.login-screen .login-form button.button-primary:hover{background:#c9161d!important}
+.login-screen .login-footnote{color:#d0d0d0!important}
