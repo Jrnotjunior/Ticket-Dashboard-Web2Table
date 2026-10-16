@@ -17,7 +17,7 @@ export function AppShell({ userEmail, onSignOut, children }: Props) {
             <a className="topbar-brand" href="./" aria-label="Web2Table Support Desk home">
               <img
                 className="topbar-brand-logo"
-                src="https://xaihajwrsvcdjisezmmc.supabase.co/storage/v1/object/public/web2table-assets/web2table%20(1).png"
+                src="https://xaihajwrsvcdjisezmmc.supabase.co/storage/v1/object/public/web2table-assets/web2table.png"
                 alt="Web2Table Support Desk"
               />
               <span className="topbar-brand-copy"><small>SUPPORT DESK</small></span>
