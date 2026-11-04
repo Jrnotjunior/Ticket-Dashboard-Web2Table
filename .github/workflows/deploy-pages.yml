@@ -27,10 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build site
-        run: npm run build
+        run: |
+          if [ -z "$VITE_SUPABASE_URL" ]; then echo "::error::VITE_SUPABASE_URL is missing."; exit 1; fi
+          if [ -z "$VITE_SUPABASE_PUBLISHABLE_KEY" ]; then echo "::error::Set the VITE_SUPABASE_PUBLISHABLE_KEY GitHub Actions secret."; exit 1; fi
+          npm run build
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_URL: https://wvibrchebfwirbgkcnbr.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
