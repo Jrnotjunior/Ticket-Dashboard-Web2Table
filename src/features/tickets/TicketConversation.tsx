@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
-import { requireSupabase } from '../../lib/supabase';
 import { listTicketMessages, TICKET_MESSAGE_PAGE_SIZE, sendTicketMessage, subscribeToTicketMessages, type SupportMessage } from '../../domain/tickets/messageService';
 import { createSupportAttachmentUrl, listSupportAttachments, uploadSupportAttachments, type SupportAttachment } from '../../domain/tickets/attachmentService';
 import type { SupportTicket } from '../../domain/tickets/types';
@@ -47,7 +46,7 @@ export function TicketConversation({ ticket, accessLevel }: Props) {
     setLoading(true);
     void load();
     const channel = subscribeToTicketMessages(ticket.id, () => { void load(); });
-    return () => { void requireSupabase().removeChannel(channel); };
+    return () => { globalThis.clearInterval(channel); };
   }, [ticket.id, load]);
 
   async function loadOlderMessages() {
