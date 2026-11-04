@@ -1,14 +1,14 @@
 import {useEffect,useState,type FormEvent,type ReactNode} from 'react';
 import {requireSupabase} from '../../lib/supabase';
-type GateProps={children:ReactNode};
+type GateProps={children:ReactNode;onVerified:()=>Promise<void>};
 type GateState={kind:'checking'}|{kind:'enroll';factorId:string;qrCode:string;secret:string}|{kind:'challenge';factorId:string}|{kind:'ready'}|{kind:'error';message:string};
-export function MfaGate({children}:GateProps){
+export function MfaGate({children,onVerified}:GateProps){
  const[state,setState]=useState<GateState>({kind:'checking'});const[code,setCode]=useState('');const[message,setMessage]=useState('');const[busy,setBusy]=useState(false);
  async function inspect(){
   setState({kind:'checking'});const client=requireSupabase();
   const {data:level,error:levelError}=await client.auth.mfa.getAuthenticatorAssuranceLevel();
   if(levelError){setState({kind:'error',message:levelError.message});return;}
-  if(level.currentLevel==='aal2'){setState({kind:'ready'});return;}
+  if(level.currentLevel==='aal2'){await onVerified();setState({kind:'ready'});return;}
   const {data:factors,error}=await client.auth.mfa.listFactors();
   if(error){setState({kind:'error',message:error.message});return;}
   const verified=factors.totp.find(f=>f.status==='verified');
@@ -34,6 +34,7 @@ export function MfaGate({children}:GateProps){
    const {error:verifyError}=await client.auth.mfa.verify({factorId:state.factorId,challengeId:challenge.id,code:code.trim()});if(verifyError)throw verifyError;
    const {data:assurance,error:assuranceError}=await client.auth.mfa.getAuthenticatorAssuranceLevel();if(assuranceError)throw assuranceError;
    if(assurance.currentLevel!=='aal2')throw new Error('The security code was accepted, but the session is not fully verified yet.');
+   await onVerified();
    setCode('');setState({kind:'ready'});
   }catch(e){setMessage(e instanceof Error?e.message:'Could not verify your authenticator code.');}finally{setBusy(false);}
  }
