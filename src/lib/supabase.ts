@@ -1,13 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = import.meta.env.VITE_SUPABASE_URL;
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// The ticket dashboard uses its dedicated Supabase project. The publishable
+// key is intended for browser use; authorization is enforced by RLS and RPCs.
+const url = 'https://cishhexduxgrwdvptuhj.supabase.co';
+const publishableKey = 'sb_publishable_tr8QdcIBOu2FfjMx_7YyjA_sP4ZM782';
 
-export const supabase = url && anonKey
-  ? createClient(url, anonKey, { auth: { storageKey: 'web2table-ticket-dashboard-auth' } })
-  : null;
+export const supabase = createClient(url, publishableKey, {
+  auth: { storageKey: 'web2table-ticket-dashboard-auth' },
+});
 
 export function requireSupabase() {
-  if (!supabase) throw new Error('Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY environment variables.');
   return supabase;
 }
