@@ -141,7 +141,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
     const channel = subscribeToCustomerReplies(() => { void loadCustomerReplies(); });
     return () => {
       active = false;
-      void requireSupabase().removeChannel(channel);
+      globalThis.clearInterval(channel);
     };
   }, [tickets]);
 
