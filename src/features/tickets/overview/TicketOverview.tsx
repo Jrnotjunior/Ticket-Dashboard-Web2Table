@@ -2,7 +2,7 @@ import type { SupportTicket } from '../../../domain/tickets/types';
 import './ticketOverview.css';
 
 export type TicketOverviewFilter =
-  | 'all' | 'incident' | 'change_request' | 'request_item'
+  | 'all' | 'incident' | 'request_item'
   | 'incident_in_progress' | 'request_item_in_progress'
   | 'p1' | 'p2' | 'high_in_progress'
   | 'incident_replied' | 'request_item_replied' | 'resolved';
