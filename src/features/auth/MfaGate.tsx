@@ -1,9 +1,10 @@
-import {useEffect,useState,type FormEvent,type ReactNode} from 'react';
+import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
 import {requireSupabase} from '../../lib/supabase';
-type GateProps={children:ReactNode;onVerified:()=>Promise<void>};
+import './mfaVerification.css';
+type GateProps={children:ReactNode;onVerified:()=>Promise<void>;onSignOut:()=>void};
 type GateState={kind:'checking'}|{kind:'enroll';factorId:string;qrCode:string;secret:string}|{kind:'challenge';factorId:string}|{kind:'ready'}|{kind:'error';message:string};
-export function MfaGate({children,onVerified}:GateProps){
- const[state,setState]=useState<GateState>({kind:'checking'});const[code,setCode]=useState('');const[message,setMessage]=useState('');const[busy,setBusy]=useState(false);
+export function MfaGate({children,onVerified,onSignOut}:GateProps){
+ const[state,setState]=useState<GateState>({kind:'checking'});const[code,setCode]=useState('');const[message,setMessage]=useState('');const[busy,setBusy]=useState(false);const codeInput=useRef<HTMLInputElement>(null);
  async function inspect(){
   setState({kind:'checking'});const client=requireSupabase();
   const {data:level,error:levelError}=await client.auth.mfa.getAuthenticatorAssuranceLevel();
@@ -18,31 +19,36 @@ export function MfaGate({children,onVerified}:GateProps){
   setState({kind:'enroll',factorId:enrollment.id,qrCode:enrollment.totp.qr_code,secret:enrollment.totp.secret});
  }
  useEffect(()=>{void inspect().catch(e=>setState({kind:'error',message:e instanceof Error?e.message:'Security verification failed.'}));},[]);
- useEffect(()=>{
-  if(state.kind!=='challenge'&&state.kind!=='enroll')return;
-  let expired=false;
-  const timeout=window.setTimeout(async()=>{
-   expired=true;
-   try{await requireSupabase().auth.signOut();}finally{window.location.reload();}
-  },60_000);
-  return()=>{window.clearTimeout(timeout);void expired;};
- },[state.kind]);
+ useEffect(()=>{if(state.kind==='challenge'||state.kind==='enroll')codeInput.current?.focus();},[state.kind]);
  async function verify(e:FormEvent){
   e.preventDefault();if(state.kind!=='challenge'&&state.kind!=='enroll')return;
+  if(code.length!==6)return;
   setBusy(true);setMessage('');
   try{const client=requireSupabase();const {data:challenge,error:challengeError}=await client.auth.mfa.challenge({factorId:state.factorId});if(challengeError)throw challengeError;
-   const {error:verifyError}=await client.auth.mfa.verify({factorId:state.factorId,challengeId:challenge.id,code:code.trim()});if(verifyError)throw verifyError;
+   const {error:verifyError}=await client.auth.mfa.verify({factorId:state.factorId,challengeId:challenge.id,code});if(verifyError)throw verifyError;
    const {data:assurance,error:assuranceError}=await client.auth.mfa.getAuthenticatorAssuranceLevel();if(assuranceError)throw assuranceError;
    if(assurance.currentLevel!=='aal2')throw new Error('The security code was accepted, but the session is not fully verified yet.');
-   await onVerified();
-   setCode('');setState({kind:'ready'});
-  }catch(e){setMessage(e instanceof Error?e.message:'Could not verify your authenticator code.');}finally{setBusy(false);}
+   await onVerified();setCode('');setState({kind:'ready'});
+  }catch(e){setMessage(e instanceof Error?e.message:'Could not verify your authenticator code.');setCode('');codeInput.current?.focus();}finally{setBusy(false);}
  }
  if(state.kind==='ready')return <>{children}</>;
- if(state.kind==='checking')return <div className="loading-screen"><span className="spinner"/> Verifying multi-factor security…</div>;
- if(state.kind==='error')return <main className="login-screen"><section className="login-card"><p className="eyebrow">ACCOUNT SECURITY</p><h1>Security check unavailable</h1><p className="muted">{state.message}</p><button className="button button-primary button-wide" onClick={()=>void inspect()}>Try again</button></section></main>;
+ if(state.kind==='checking')return <div className="ticket-mfa-loading"><span className="spinner"/> Verifying secure session…</div>;
+ if(state.kind==='error')return <main className="ticket-mfa-screen"><section className="ticket-mfa-card"><h1>Security check unavailable</h1><p className="ticket-mfa-description">{state.message}</p><button className="ticket-mfa-primary" onClick={()=>void inspect()}>Try again</button><button className="ticket-mfa-secondary" onClick={onSignOut}>Sign out</button></section></main>;
  const enrolling=state.kind==='enroll';
- return <main className="login-screen"><section className="login-card mfa-card"><p className="eyebrow">WEB2TABLE SECURITY</p><h1>{enrolling?'Set up your authenticator':'Verify your identity'}</h1><p className="muted">{enrolling?'Scan the QR code with an authenticator app, then enter its six-digit code.':'Enter the current six-digit code from your authenticator app to access support tickets.'}</p>
- {enrolling&&<div className="mfa-enrollment"><img src={state.qrCode} alt="Authenticator enrollment QR code" style={{display:'block',width:'min(100%,260px)',margin:'18px auto'}}/><details><summary>Set up manually</summary><p className="muted">Enter this key in your authenticator app:</p><code style={{display:'block',overflowWrap:'anywhere',padding:10,userSelect:'all'}}>{state.secret}</code></details></div>}
- <form className="login-form" onSubmit={verify}><label htmlFor="mfa-code">Authentication code</label><input id="mfa-code" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,'').slice(0,6))} required/>{message&&<div className="alert alert-error" role="alert">{message}</div>}<button className="button button-primary button-wide" disabled={busy || code.length !== 6}>{busy?'Verifying…':enrolling?'Verify':'Verify'}</button></form></section></main>;
+ return <main className="ticket-mfa-screen"><section className="ticket-mfa-card">
+  <h1>{enrolling?'Set up your authenticator':'Verify your identity'}</h1>
+  <p className="ticket-mfa-description">{enrolling?'Scan the QR code with your authenticator app, then enter its current six-digit code.':'Your authenticator is already set up. Enter its current six-digit code to continue to your workspace.'}</p>
+  {enrolling&&<div className="ticket-mfa-enrollment"><img src={state.qrCode} alt="Authenticator enrollment QR code"/><details><summary>Set up manually</summary><code>{state.secret}</code></details></div>}
+  <form onSubmit={verify} className="ticket-mfa-form">
+   <label htmlFor="ticket-mfa-code">Authenticator code</label>
+   <div className="ticket-mfa-code-wrap" onClick={()=>codeInput.current?.focus()}>
+    <div className="ticket-mfa-code-cells" aria-hidden="true">{Array.from({length:6},(_,i)=><span className={i===code.length?'is-current':''} key={i}>{code[i]||''}</span>)}</div>
+    <input ref={codeInput} id="ticket-mfa-code" className="ticket-mfa-code-input" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e=>setCode(e.target.value.replace(/\\D/g,'').slice(0,6))} aria-label="Six-digit authenticator code" required/>
+   </div>
+   <p className="ticket-mfa-hint">Enter the 6-digit code from your authenticator app.</p>
+   {message&&<div className="ticket-mfa-error" role="alert">{message}</div>}
+   <button className="ticket-mfa-primary" disabled={busy||code.length!==6}>{busy?'Verifying…':'Verify authenticator'}</button>
+   <button type="button" className="ticket-mfa-secondary" onClick={onSignOut} disabled={busy}>Sign out</button>
+  </form>
+ </section></main>;
 }
