@@ -3,7 +3,6 @@ import type { SupportTicket } from '../../domain/tickets/types';
 import { impactLabels, statusLabels, ticketTypeLabels } from '../../domain/tickets/types';
 import './ticketSearch.css';
 import { listCustomerRepliedTicketIds, subscribeToCustomerReplies } from '../../domain/tickets/customerReplyService';
-import { requireSupabase } from '../../lib/supabase';
 import { TicketOverview, type TicketOverviewFilter, type TicketOverviewCounts } from './overview/TicketOverview';
 import { getTicketOverviewCounts, subscribeToTicketOverviewCounts } from '../../domain/tickets/ticketOverviewService';
 
@@ -124,7 +123,7 @@ export function TicketDashboard({ tickets, loading, error }: Props) {
     const channel = subscribeToTicketOverviewCounts(() => { void refreshCounts(); });
     return () => {
       active = false;
-      void requireSupabase().removeChannel(channel);
+      globalThis.clearInterval(channel);
     };
   }, []);
 
