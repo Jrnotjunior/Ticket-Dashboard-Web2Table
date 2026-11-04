@@ -15,8 +15,8 @@ export function LoginPage({onSubmit,onForgotPassword,busy,error,notice}:Props){
   <p className="ticket-auth-description">Sign in to manage support tickets and customer requests.</p>
   <h2 className="ticket-auth-signin-heading">Sign In</h2>
   <form onSubmit={submit} className="ticket-auth-form">
-   <label>Email address<input type="email" autoComplete="username" value={email} onChange={e=>setEmail(e.target.value)} required/></label>
-   <label>Password<span className="ticket-auth-password"><input type={showPassword?"text":"password"} autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} required/>{password.length > 0 && <button className="ticket-auth-toggle" type="button" aria-label={showPassword?"Hide password":"Show password"} aria-pressed={showPassword} onClick={()=>setShowPassword(v=>!v)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>{showPassword&&<path d="M4 4 20 20"/>}</svg></button>}</span></label>
+   <label>Email address<input type="email" autoComplete="username" placeholder="you@example.com" value={email} onChange={e=>setEmail(e.target.value)} required/></label>
+   <label>Password<span className="ticket-auth-password"><input type={showPassword?"text":"password"} autoComplete="current-password" placeholder="Your password" value={password} onChange={e=>setPassword(e.target.value)} required/>{password.length > 0 && <button className="ticket-auth-toggle" type="button" aria-label={showPassword?"Hide password":"Show password"} aria-pressed={showPassword} onClick={()=>setShowPassword(v=>!v)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>{showPassword&&<path d="M4 4 20 20"/>}</svg></button>}</span></label>
    <button className="ticket-auth-forgot" type="button" onClick={() => onForgotPassword(email.trim())} disabled={busy}>Forgot password?</button>
    {error&&<div className="ticket-auth-error" role="alert">{error}</div>}
    {notice&&<div className="ticket-auth-notice" role="status">{notice}</div>}
