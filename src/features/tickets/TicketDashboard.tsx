@@ -15,16 +15,13 @@ type Props = {
 const filterLabels: Record<TicketOverviewFilter, string> = {
   all: 'All Tickets',
   incident: 'Incidents',
-  change_request: 'Change Requests',
   request_item: 'RTM / Request Items',
   incident_in_progress: 'Incident In Progress',
-  change_in_progress: 'Change In Progress',
   request_item_in_progress: 'RTM In Progress',
   p1: 'P1 · Critical',
   p2: 'P2 · High',
   high_in_progress: 'High Priority · In Progress',
   incident_replied: 'Incident Updated by Customer',
-  change_replied: 'Change Updated by Customer',
   request_item_replied: 'RTM Updated by Customer',
   resolved: 'Resolved / Closed',
 };
@@ -33,16 +30,13 @@ function matchesFilter(ticket: SupportTicket, filter: TicketOverviewFilter, cust
   const isActive = ticket.status !== 'resolved' && ticket.status !== 'closed' && ticket.status !== 'cancelled';
   switch (filter) {
     case 'incident': return isActive && ticket.request_type === 'incident';
-    case 'change_request': return isActive && ticket.request_type === 'change_request';
     case 'request_item': return isActive && ticket.request_type === 'request_item';
     case 'incident_in_progress': return ticket.request_type === 'incident' && ticket.status === 'in_progress';
-    case 'change_in_progress': return ticket.request_type === 'change_request' && ticket.status === 'in_progress';
     case 'request_item_in_progress': return ticket.request_type === 'request_item' && ticket.status === 'in_progress';
     case 'p1': return isActive && ticket.impact === 'critical';
     case 'p2': return isActive && ticket.impact === 'high';
     case 'high_in_progress': return ticket.status === 'in_progress' && (ticket.impact === 'high' || ticket.impact === 'critical');
     case 'incident_replied': return isActive && ticket.request_type === 'incident' && customerRepliedIds.has(ticket.id);
-    case 'change_replied': return isActive && ticket.request_type === 'change_request' && customerRepliedIds.has(ticket.id);
     case 'request_item_replied': return isActive && ticket.request_type === 'request_item' && customerRepliedIds.has(ticket.id);
     case 'resolved': return ticket.status === 'resolved' || ticket.status === 'closed';
     default: return true;
