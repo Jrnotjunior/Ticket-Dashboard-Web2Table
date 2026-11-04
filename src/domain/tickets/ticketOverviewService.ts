@@ -1,15 +1,11 @@
-import { requireSupabase } from '../../lib/supabase';
 import type { TicketOverviewCounts } from '../../features/tickets/overview/TicketOverview';
+import { supportRequest, pollSupportChanges } from './adminApi';
 
 export async function getTicketOverviewCounts(): Promise<TicketOverviewCounts> {
-  const { data, error } = await requireSupabase().from('support_ticket_dashboard_counts').select('*').single();
-  if (error) throw error;
-  return data as TicketOverviewCounts;
+  const result = await supportRequest<{ counts: TicketOverviewCounts }>('overview_counts');
+  return result.counts;
 }
 
 export function subscribeToTicketOverviewCounts(onChange: () => void) {
-  return requireSupabase().channel('support-ticket-overview-counts')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'restaurant_support_requests' }, onChange)
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'support_ticket_messages' }, onChange)
-    .subscribe();
+  return pollSupportChanges(onChange);
 }
