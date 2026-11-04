@@ -1,92 +1,43 @@
 .ticket-mfa-screen{
- min-height:100vh;
- display:grid;
- place-items:center;
- padding:24px;
- background:#fff;
- color:#101828;
- font-family:Inter,Arial,sans-serif;
+ min-height:100vh;display:grid;place-items:center;padding:24px;
+ background:#000;color:#fff;font-family:Inter,Arial,sans-serif;
 }
 .ticket-mfa-card{
- width:min(100%,400px);
- padding:28px 24px 24px;
- background:#fff;
- border:1px solid #e4e7ec;
- border-radius:18px;
- box-shadow:0 18px 48px rgba(16,24,40,.06);
+ width:min(100%,400px);padding:28px 24px 24px;background:#080808;
+ border:1px solid #303030;border-radius:18px;box-shadow:0 18px 48px rgba(0,0,0,.28);
 }
 .ticket-mfa-card h1{
- margin:0 0 8px;
- color:#101828;
- font-family:Inter,Arial,sans-serif;
- font-size:28px;
- font-weight:600;
- line-height:1.25;
- letter-spacing:-.8px;
+ margin:0 0 8px;color:#fff;font-family:Inter,Arial,sans-serif;
+ font-size:28px;font-weight:600;line-height:1.25;letter-spacing:-.8px;
 }
-.ticket-mfa-description{
- margin:0 0 14px;
- color:#667085;
- font-size:14px;
- line-height:1.55;
-}
+.ticket-mfa-description{margin:0 0 14px;color:#c8c8c8;font-size:14px;line-height:1.55}
 .ticket-mfa-form{display:flex;flex-direction:column;gap:8px}
-.ticket-mfa-form label{
- color:#101828;
- font-size:13px;
- line-height:1.4;
- font-weight:650;
-}
+.ticket-mfa-form label{color:#fff;font-size:13px;line-height:1.4;font-weight:650}
 .ticket-mfa-code-wrap{position:relative;width:100%;cursor:text}
 .ticket-mfa-code-cells{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .ticket-mfa-code-cells span{
- display:grid;
- place-items:center;
- height:34px;
- min-width:0;
- border:1px solid #dfe3eb;
- border-radius:7px;
- background:#fff;
- color:#101828;
- font-size:17px;
- font-weight:600;
+ display:grid;place-items:center;height:34px;min-width:0;border:1px solid #dce6f7;
+ border-radius:7px;background:#e8f0fe;color:#111;font-size:17px;font-weight:600;
 }
-.ticket-mfa-code-cells span.is-current{border-color:#98a2b3;box-shadow:0 0 0 2px rgba(16,24,40,.04)}
-.ticket-mfa-code-input{
- position:absolute;
- inset:0;
- width:100%;
- height:100%;
- padding:0;
- border:0;
- opacity:.015;
- cursor:text;
-}
-.ticket-mfa-hint{margin:0 0 0;color:#667085;font-size:12px;line-height:1.45}
+.ticket-mfa-code-cells span.is-current{border-color:#ED1C24;box-shadow:0 0 0 2px rgba(237,28,36,.12)}
+.ticket-mfa-code-input{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;opacity:.015;cursor:text}
+.ticket-mfa-hint{margin:0;color:#c8c8c8;font-size:12px;line-height:1.45}
 .ticket-mfa-primary,.ticket-mfa-secondary{
- width:100%;
- min-height:41px;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:8px;
- font-family:Inter,Arial,sans-serif;
- font-size:13px;
- font-weight:650;
- cursor:pointer;
+ width:100%;min-height:41px;display:flex;align-items:center;justify-content:center;
+ border-radius:8px;font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:650;cursor:pointer;
 }
-.ticket-mfa-primary{margin-top:0;border:1px solid #101b31;background:#101b31;color:#fff}
-.ticket-mfa-primary:hover{background:#1d2939}
-.ticket-mfa-primary:disabled{opacity:.65;cursor:not-allowed}
-.ticket-mfa-secondary{border:1px solid #d9e0eb;background:#fff;color:#101828}
-.ticket-mfa-secondary:hover{background:#f9fafb}
+.ticket-mfa-primary{margin-top:0;border:1px solid #ED1C24;background:#ED1C24;color:#fff}
+.ticket-mfa-primary:hover{background:#c9161d;border-color:#c9161d}
+.ticket-mfa-primary:disabled{opacity:.55;cursor:not-allowed}
+.ticket-mfa-secondary{border:1px solid #444;background:#080808;color:#fff}
+.ticket-mfa-secondary:hover{background:#171717;border-color:#666}
 .ticket-mfa-secondary:disabled{opacity:.6;cursor:not-allowed}
-.ticket-mfa-error{padding:9px 10px;border:1px solid #fecdca;border-radius:7px;background:#fef3f2;color:#b42318;font-size:12px;line-height:1.45}
+.ticket-mfa-error{padding:9px 10px;border:1px solid rgba(237,28,36,.55);border-radius:7px;background:rgba(237,28,36,.1);color:#fff;font-size:12px;line-height:1.45}
 .ticket-mfa-enrollment{margin:12px 0}
 .ticket-mfa-enrollment img{display:block;width:min(100%,220px);margin:0 auto 12px}
-.ticket-mfa-enrollment details{color:#475467;font-size:13px}
-.ticket-mfa-enrollment code{display:block;margin-top:8px;padding:10px;background:#f2f4f7;border-radius:6px;overflow-wrap:anywhere}
-.ticket-mfa-loading{min-height:100vh;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#667085;font:14px Inter,Arial,sans-serif}
+.ticket-mfa-enrollment details{color:#d0d0d0;font-size:13px}
+.ticket-mfa-enrollment code{display:block;margin-top:8px;padding:10px;background:#171717;color:#fff;border-radius:6px;overflow-wrap:anywhere}
+.ticket-mfa-loading{min-height:100vh;display:flex;align-items:center;justify-content:center;gap:10px;background:#000;color:#d0d0d0;font:14px Inter,Arial,sans-serif}
 @media(max-width:480px){
  .ticket-mfa-screen{padding:20px 16px}
  .ticket-mfa-card{padding:26px 22px 22px;border-radius:16px}
