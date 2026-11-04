@@ -13,3 +13,7 @@ export async function updateTicketStatus(id: string, status: TicketStatus): Prom
 export function subscribeToTickets(onChange: () => void) {
   return pollSupportChanges(onChange);
 }
+
+export function unsubscribeFromTickets(timer: ReturnType<typeof subscribeToTickets>) {
+  globalThis.clearInterval(timer);
+}
