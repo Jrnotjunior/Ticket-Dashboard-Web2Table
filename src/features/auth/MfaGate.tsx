@@ -9,14 +9,33 @@ export function MfaGate({children,onVerified,onSignOut}:GateProps){
   setState({kind:'checking'});const client=requireSupabase();
   const {data:level,error:levelError}=await client.auth.mfa.getAuthenticatorAssuranceLevel();
   if(levelError){setState({kind:'error',message:levelError.message});return;}
-  if(level.currentLevel==='aal2'){await onVerified();setState({kind:'ready'});return;}
+  const {data:sessionData,error:sessionError}=await client.auth.getSession();
+  if(sessionError||!sessionData.session){setState({kind:'error',message:sessionError?.message??'Your secure session has expired. Sign in again.'});return;}
+  const userId=sessionData.session.user.id;
+  const storageKey=`web2table.pending-ticket-mfa.v1:${userId}`;
+  if(level.currentLevel==='aal2'){try{window.sessionStorage.removeItem(storageKey);}catch{}await onVerified();setState({kind:'ready'});return;}
   const {data:factors,error}=await client.auth.mfa.listFactors();
   if(error){setState({kind:'error',message:error.message});return;}
   const verified=factors.totp.find(f=>f.status==='verified');
-  if(verified){setState({kind:'challenge',factorId:verified.id});return;}
+  if(verified){try{window.sessionStorage.removeItem(storageKey);}catch{}setState({kind:'challenge',factorId:verified.id});return;}
+  const pending=factors.totp.filter(f=>f.status!=='verified');
+  try{
+   const raw=window.sessionStorage.getItem(storageKey);
+   if(raw){
+    const saved=JSON.parse(raw) as {factorId?:string;qrCode?:string;secret?:string;expiresAt?:number};
+    if(saved.factorId&&saved.qrCode&&saved.secret&&saved.expiresAt&&saved.expiresAt>Date.now()&&pending.some(f=>f.id===saved.factorId)){
+     setState({kind:'enroll',factorId:saved.factorId,qrCode:saved.qrCode,secret:saved.secret});return;
+    }
+    window.sessionStorage.removeItem(storageKey);
+   }
+  }catch{setState({kind:'error',message:'Unable to restore the pending authenticator setup in this browser tab. Do not scan an older QR code.'});return;}
+  if(pending.length){setState({kind:'error',message:'An unfinished authenticator setup exists but its original QR code is unavailable in this tab. Contact support to restart the incomplete setup safely.'});return;}
   const {data:enrollment,error:enrollError}=await client.auth.mfa.enroll({factorType:'totp',friendlyName:'Web2Table Support Desk'});
   if(enrollError){setState({kind:'error',message:enrollError.message});return;}
-  setState({kind:'enroll',factorId:enrollment.id,qrCode:enrollment.totp.qr_code,secret:enrollment.totp.secret});
+  const next={kind:'enroll' as const,factorId:enrollment.id,qrCode:enrollment.totp.qr_code,secret:enrollment.totp.secret};
+  try{window.sessionStorage.setItem(storageKey,JSON.stringify({...next,expiresAt:Date.now()+30*60*1000}));}
+  catch{await client.auth.mfa.unenroll({factorId:enrollment.id});setState({kind:'error',message:'This browser cannot retain the pending authenticator setup. Enable session storage and retry.'});return;}
+  setState(next);
  }
  useEffect(()=>{void inspect().catch(e=>setState({kind:'error',message:e instanceof Error?e.message:'Security verification failed.'}));},[]);
  useEffect(()=>{if(state.kind==='challenge'||state.kind==='enroll')codeInput.current?.focus();},[state.kind]);
@@ -28,6 +47,7 @@ export function MfaGate({children,onVerified,onSignOut}:GateProps){
    const {error:verifyError}=await client.auth.mfa.verify({factorId:state.factorId,challengeId:challenge.id,code});if(verifyError)throw verifyError;
    const {data:assurance,error:assuranceError}=await client.auth.mfa.getAuthenticatorAssuranceLevel();if(assuranceError)throw assuranceError;
    if(assurance.currentLevel!=='aal2')throw new Error('The security code was accepted, but the session is not fully verified yet.');
+   const {data:sessionData}=await client.auth.getSession();if(sessionData.session){try{window.sessionStorage.removeItem(`web2table.pending-ticket-mfa.v1:${sessionData.session.user.id}`);}catch{}}
    await onVerified();setCode('');setState({kind:'ready'});
   }catch(e){setMessage(e instanceof Error?e.message:'Could not verify your authenticator code.');setCode('');codeInput.current?.focus();}finally{setBusy(false);}
  }
